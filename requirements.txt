@@ -1,0 +1,10 @@
+streamlit
+opencv-python
+ultralytics
+requests
+pyttsx3
+sounddevice
+vosk
+ollama
+flask
+numpy
