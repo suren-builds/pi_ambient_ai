@@ -1,10 +1,30 @@
-streamlit
-opencv-python
-ultralytics
-requests
-pyttsx3
-sounddevice
-vosk
-ollama
-flask
-numpy
+# Ambient AI Hub — Python dependencies (pinned)
+# Generated 2026-09-29
+# Install: pip install -r requirements.txt
+
+# Core vision
+opencv-python-headless>=4.8.0,<5.0       # use headless on Pi (no GUI libs)
+ultralytics>=8.0.0,<9.0                   # YOLOv8
+
+# Core audio / speech
+sounddevice>=0.4.6,<1.0
+vosk>=0.3.45,<1.0
+pyttsx3>=2.90,<3.0
+
+# LLM
+ollama>=0.1.8,<1.0
+
+# Web / API
+flask>=3.0.0,<4.0
+requests>=2.31.0,<3.0
+
+# Dashboard
+streamlit>=1.32.0,<2.0
+
+# Utilities
+numpy>=1.24.0,<2.0
+PyYAML>=6.0,<7.0
+
+# Testing (dev only — not needed on Pi)
+pytest>=8.0,<9.0
+pytest-cov>=4.1,<5.0

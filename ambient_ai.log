@@ -1,0 +1,665 @@
+2026-09-29T12:33:27 [INFO] eyes: Loading YOLOv8-Pose model from C:\Users\micky\.gemini\antigravity\scratch\pi_ambient_ai\yolov8n-pose.pt
+2026-09-29T12:33:47 [INFO] eyes: Initialising webcam...
+2026-09-29T12:33:48 [INFO] eyes: Loading LBPH face model from C:\Users\micky\.gemini\antigravity\scratch\pi_ambient_ai\owner_face_model.yml
+2026-09-29T12:33:48 [WARNING] eyes: Could not load face model (OpenCV(5.0.0) D:\a\opencv-python\opencv-python\opencv_contrib\modules\face\src\facerec.cpp:61: error: (-2:Unspecified error) File can't be opened for reading! in function 'cv::face::FaceRecognizer::read'
+). Run enroll_owner.py first.
+2026-09-29T12:33:48 [INFO] eyes: Vision engine starting. Headless=False
+2026-09-29T12:33:55 [ERROR] eyes: Frame save error: [WinError 2] The system cannot find the file specified: 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg.tmp' -> 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg'
+2026-09-29T12:33:55 [ERROR] eyes: Frame save error: [WinError 2] The system cannot find the file specified: 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg.tmp' -> 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg'
+2026-09-29T12:33:55 [ERROR] eyes: Frame save error: [WinError 2] The system cannot find the file specified: 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg.tmp' -> 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg'
+2026-09-29T12:33:55 [ERROR] eyes: Frame save error: [WinError 2] The system cannot find the file specified: 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg.tmp' -> 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg'
+2026-09-29T12:33:55 [WARNING] eyes: Sending FALL ALERT to Brain for: Unknown
+2026-09-29T12:33:56 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 1 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d4c5b620>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:33:57 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 2 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d4ca1310>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:33:59 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 3 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d4ca1a90>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:34:01 [ERROR] eyes: POST http://127.0.0.1:5000/event failed after 3 attempts.
+2026-09-29T12:34:01 [ERROR] eyes: Frame save error: [WinError 2] The system cannot find the file specified: 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg.tmp' -> 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg'
+2026-09-29T12:34:02 [WARNING] eyes: Sending FALL ALERT to Brain for: Unknown
+2026-09-29T12:34:03 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 1 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d4cc0050>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:34:04 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 2 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d4cc09d0>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:34:06 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 3 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d4c071d0>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:34:08 [ERROR] eyes: POST http://127.0.0.1:5000/event failed after 3 attempts.
+2026-09-29T12:34:08 [ERROR] eyes: Frame save error: [WinError 2] The system cannot find the file specified: 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg.tmp' -> 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg'
+2026-09-29T12:34:08 [WARNING] eyes: Sending FALL ALERT to Brain for: Unknown
+2026-09-29T12:34:09 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 1 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d4cb97b0>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:34:11 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 2 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d4cba140>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:34:13 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 3 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d4cba580>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:34:15 [ERROR] eyes: POST http://127.0.0.1:5000/event failed after 3 attempts.
+2026-09-29T12:34:15 [ERROR] eyes: Frame save error: [WinError 2] The system cannot find the file specified: 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg.tmp' -> 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg'
+2026-09-29T12:34:15 [WARNING] eyes: Sending FALL ALERT to Brain for: Unknown
+2026-09-29T12:34:16 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 1 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d4cb9260>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:34:17 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 2 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d4cbae00>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:34:19 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 3 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d4cbb240>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:34:21 [ERROR] eyes: POST http://127.0.0.1:5000/event failed after 3 attempts.
+2026-09-29T12:34:21 [ERROR] eyes: Frame save error: [WinError 2] The system cannot find the file specified: 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg.tmp' -> 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg'
+2026-09-29T12:34:21 [WARNING] eyes: Sending FALL ALERT to Brain for: Unknown
+2026-09-29T12:34:22 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 1 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d4cb9040>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:34:24 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 2 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d4cbb790>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:34:26 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 3 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d4cbbbd0>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:34:28 [ERROR] eyes: POST http://127.0.0.1:5000/event failed after 3 attempts.
+2026-09-29T12:34:28 [ERROR] eyes: Frame save error: [WinError 2] The system cannot find the file specified: 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg.tmp' -> 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg'
+2026-09-29T12:34:28 [WARNING] eyes: Sending FALL ALERT to Brain for: Unknown
+2026-09-29T12:34:29 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 1 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d4d0c050>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:34:30 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 2 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d4d0c490>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:34:32 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 3 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d4d0c8d0>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:34:34 [ERROR] eyes: POST http://127.0.0.1:5000/event failed after 3 attempts.
+2026-09-29T12:34:34 [ERROR] eyes: Frame save error: [WinError 2] The system cannot find the file specified: 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg.tmp' -> 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg'
+2026-09-29T12:34:34 [WARNING] eyes: Sending FALL ALERT to Brain for: Unknown
+2026-09-29T12:34:35 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 1 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d4d0ce20>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:34:37 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 2 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d4d0d150>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:34:39 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 3 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d4d0d590>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:34:41 [ERROR] eyes: POST http://127.0.0.1:5000/event failed after 3 attempts.
+2026-09-29T12:34:41 [ERROR] eyes: Frame save error: [WinError 2] The system cannot find the file specified: 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg.tmp' -> 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg'
+2026-09-29T12:34:41 [WARNING] eyes: Sending FALL ALERT to Brain for: Unknown
+2026-09-29T12:34:42 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 1 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d4d0dae0>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:34:43 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 2 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d4d0de10>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:34:45 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 3 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d4d0e250>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:34:47 [ERROR] eyes: POST http://127.0.0.1:5000/event failed after 3 attempts.
+2026-09-29T12:34:47 [ERROR] eyes: Frame save error: [WinError 2] The system cannot find the file specified: 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg.tmp' -> 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg'
+2026-09-29T12:34:47 [WARNING] eyes: Sending FALL ALERT to Brain for: Unknown
+2026-09-29T12:34:48 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 1 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d4d0e7a0>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:34:50 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 2 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d4d0ead0>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:34:52 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 3 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d4d0ef10>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:34:54 [ERROR] eyes: POST http://127.0.0.1:5000/event failed after 3 attempts.
+2026-09-29T12:34:54 [ERROR] eyes: Frame save error: [WinError 2] The system cannot find the file specified: 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg.tmp' -> 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg'
+2026-09-29T12:34:54 [WARNING] eyes: Sending FALL ALERT to Brain for: Unknown
+2026-09-29T12:34:55 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 1 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d4d0f460>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:34:57 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 2 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d4d0f790>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:34:59 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 3 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d4d0fbd0>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:35:01 [ERROR] eyes: POST http://127.0.0.1:5000/event failed after 3 attempts.
+2026-09-29T12:35:01 [ERROR] eyes: Frame save error: [WinError 2] The system cannot find the file specified: 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg.tmp' -> 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg'
+2026-09-29T12:35:01 [WARNING] eyes: Sending FALL ALERT to Brain for: Unknown
+2026-09-29T12:35:02 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 1 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d60b4050>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:35:03 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 2 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d60b4490>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:35:05 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 3 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d60b48d0>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:35:07 [ERROR] eyes: POST http://127.0.0.1:5000/event failed after 3 attempts.
+2026-09-29T12:35:07 [ERROR] eyes: Frame save error: [WinError 2] The system cannot find the file specified: 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg.tmp' -> 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg'
+2026-09-29T12:35:07 [WARNING] eyes: Sending FALL ALERT to Brain for: Unknown
+2026-09-29T12:35:08 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 1 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d60b4e20>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:35:10 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 2 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d60b5150>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:35:12 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 3 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d60b5590>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:35:14 [ERROR] eyes: POST http://127.0.0.1:5000/event failed after 3 attempts.
+2026-09-29T12:35:14 [ERROR] eyes: Frame save error: [WinError 2] The system cannot find the file specified: 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg.tmp' -> 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg'
+2026-09-29T12:35:14 [WARNING] eyes: Sending FALL ALERT to Brain for: Unknown
+2026-09-29T12:35:15 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 1 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d60b5ae0>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:35:16 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 2 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d60b5e10>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:35:18 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 3 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d60b6250>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:35:20 [ERROR] eyes: POST http://127.0.0.1:5000/event failed after 3 attempts.
+2026-09-29T12:35:20 [ERROR] eyes: Frame save error: [WinError 2] The system cannot find the file specified: 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg.tmp' -> 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg'
+2026-09-29T12:35:20 [WARNING] eyes: Sending FALL ALERT to Brain for: Unknown
+2026-09-29T12:35:21 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 1 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d60b67a0>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:35:23 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 2 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d60b6ad0>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:35:25 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 3 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d60b6f10>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:35:27 [ERROR] eyes: POST http://127.0.0.1:5000/event failed after 3 attempts.
+2026-09-29T12:35:27 [ERROR] eyes: Frame save error: [WinError 2] The system cannot find the file specified: 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg.tmp' -> 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg'
+2026-09-29T12:35:27 [WARNING] eyes: Sending FALL ALERT to Brain for: Unknown
+2026-09-29T12:35:28 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 1 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d60b7460>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:35:29 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 2 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d60b7790>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:35:31 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 3 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d60b7bd0>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:35:33 [ERROR] eyes: POST http://127.0.0.1:5000/event failed after 3 attempts.
+2026-09-29T12:35:33 [ERROR] eyes: Frame save error: [WinError 2] The system cannot find the file specified: 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg.tmp' -> 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg'
+2026-09-29T12:35:33 [WARNING] eyes: Sending FALL ALERT to Brain for: Unknown
+2026-09-29T12:35:34 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 1 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d6108050>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:35:36 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 2 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d6108490>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:35:38 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 3 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d61088d0>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:35:40 [ERROR] eyes: POST http://127.0.0.1:5000/event failed after 3 attempts.
+2026-09-29T12:35:40 [ERROR] eyes: Frame save error: [WinError 2] The system cannot find the file specified: 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg.tmp' -> 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg'
+2026-09-29T12:35:40 [WARNING] eyes: Sending FALL ALERT to Brain for: Unknown
+2026-09-29T12:35:41 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 1 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d6108e20>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:35:42 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 2 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d6109150>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:35:44 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 3 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d6109590>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:35:46 [ERROR] eyes: POST http://127.0.0.1:5000/event failed after 3 attempts.
+2026-09-29T12:35:46 [ERROR] eyes: Frame save error: [WinError 2] The system cannot find the file specified: 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg.tmp' -> 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg'
+2026-09-29T12:35:47 [WARNING] eyes: Sending FALL ALERT to Brain for: Unknown
+2026-09-29T12:35:48 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 1 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d6109ae0>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:35:49 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 2 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d6109e10>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:35:51 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 3 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d610a250>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:35:53 [ERROR] eyes: POST http://127.0.0.1:5000/event failed after 3 attempts.
+2026-09-29T12:35:53 [ERROR] eyes: Frame save error: [WinError 2] The system cannot find the file specified: 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg.tmp' -> 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg'
+2026-09-29T12:35:53 [WARNING] eyes: Sending FALL ALERT to Brain for: Unknown
+2026-09-29T12:35:54 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 1 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d610a7a0>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:35:56 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 2 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d610aad0>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:35:58 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 3 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /event (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d610af10>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:36:00 [ERROR] eyes: POST http://127.0.0.1:5000/event failed after 3 attempts.
+2026-09-29T12:36:00 [ERROR] eyes: Frame save error: [WinError 2] The system cannot find the file specified: 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg.tmp' -> 'C:\\Users\\micky\\.gemini\\antigravity\\scratch\\pi_ambient_ai\\latest_frame.jpg'
+2026-09-29T12:36:00 [INFO] eyes: Gesture: t_pose
+2026-09-29T12:36:01 [WARNING] eyes: POST http://127.0.0.1:5000/trigger_gesture attempt 1 failed: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /trigger_gesture (Caused by ConnectTimeoutError(<HTTPConnection(host='127.0.0.1', port=5000) at 0x220d610b460>, 'Connection to 127.0.0.1 timed out. (connect timeout=1.0)'))
+2026-09-29T12:37:01 [INFO] eyes: Loading YOLOv8-Pose model from C:\Users\micky\.gemini\antigravity\scratch\pi_ambient_ai\yolov8n-pose.pt
+2026-09-29T12:37:01 [INFO] eyes: Initialising webcam...
+2026-09-29T12:37:01 [INFO] eyes: Loading LBPH face model from C:\Users\micky\.gemini\antigravity\scratch\pi_ambient_ai\owner_face_model.yml
+2026-09-29T12:37:01 [WARNING] eyes: Could not load face model (OpenCV(5.0.0) D:\a\opencv-python\opencv-python\opencv_contrib\modules\face\src\facerec.cpp:61: error: (-2:Unspecified error) File can't be opened for reading! in function 'cv::face::FaceRecognizer::read'
+). Run enroll_owner.py first.
+2026-09-29T12:37:01 [INFO] eyes: Vision engine starting. Headless=False
+2026-09-29T12:37:01 [INFO] eyes: Releasing camera and cleaning up.
+2026-09-29T12:37:01 [INFO] eyes: Vision engine shut down cleanly.
+2026-09-29T12:38:25 [INFO] eyes: Loading YOLOv8-Pose model from C:\Users\micky\.gemini\antigravity\scratch\pi_ambient_ai\yolov8n-pose.pt
+2026-09-29T12:38:25 [INFO] eyes: Initialising webcam...
+2026-09-29T12:38:25 [INFO] eyes: Loading LBPH face model from C:\Users\micky\.gemini\antigravity\scratch\pi_ambient_ai\owner_face_model.yml
+2026-09-29T12:38:25 [WARNING] eyes: Could not load face model (OpenCV(5.0.0) D:\a\opencv-python\opencv-python\opencv_contrib\modules\face\src\facerec.cpp:61: error: (-2:Unspecified error) File can't be opened for reading! in function 'cv::face::FaceRecognizer::read'
+). Run enroll_owner.py first.
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:25 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:38:26 [WARNING] brain: [ALERT] Fall event received for: Owner
+2026-09-29T12:38:26 [WARNING] brain: [ALERT] Fall event received for: Owner
+2026-09-29T12:38:26 [INFO] brain: [EVENT] Unknown type=alien_invasion (ignored)
+2026-09-29T12:38:26 [INFO] brain: [EVENT] Unknown type=alien_invasion (ignored)
+2026-09-29T12:38:26 [INFO] brain: [EVENT] Unknown type= (ignored)
+2026-09-29T12:38:26 [INFO] brain: [EVENT] Unknown type= (ignored)
+2026-09-29T12:38:26 [WARNING] brain: [ALERT] Fall event received for: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+2026-09-29T12:38:26 [WARNING] brain: [ALERT] Fall event received for: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+2026-09-29T12:38:26 [INFO] brain: [CONFIG] Gesture config updated: {'left_arm_up': 'Toggle Light'}
+2026-09-29T12:38:26 [INFO] brain: [CONFIG] Gesture config updated: {'left_arm_up': 'Toggle Light'}
+2026-09-29T12:38:26 [INFO] brain: [CONFIG] Gesture config updated: {}
+2026-09-29T12:38:26 [INFO] brain: [CONFIG] Gesture config updated: {}
+2026-09-29T12:38:26 [INFO] brain: [CONFIG] Gesture config updated: {}
+2026-09-29T12:38:26 [INFO] brain: [CONFIG] Gesture config updated: {}
+2026-09-29T12:38:26 [INFO] brain: [GESTURE] left_arm_up → Toggle Mic
+2026-09-29T12:38:26 [INFO] brain: [GESTURE] left_arm_up → Toggle Mic
+2026-09-29T12:38:26 [INFO] brain: [GESTURE] right_arm_up → Toggle Light
+2026-09-29T12:38:26 [INFO] brain: [GESTURE] right_arm_up → Toggle Light
+2026-09-29T12:38:26 [INFO] brain: [GESTURE] both_arms_up → Toggle Fan
+2026-09-29T12:38:26 [INFO] brain: [GESTURE] both_arms_up → Toggle Fan
+2026-09-29T12:38:26 [INFO] brain: [GESTURE] moonwalk → None
+2026-09-29T12:38:26 [INFO] brain: [GESTURE] moonwalk → None
+2026-09-29T12:38:26 [WARNING] brain: [EMERGENCY] Protocol activated for: TestContact (dry_run=True)
+2026-09-29T12:38:26 [WARNING] brain: [EMERGENCY] Protocol activated for: TestContact (dry_run=True)
+2026-09-29T12:38:26 [WARNING] brain: [EMERGENCY] Protocol activated for: Family (dry_run=False)
+2026-09-29T12:38:26 [WARNING] brain: [EMERGENCY] Protocol activated for: Family (dry_run=False)
+2026-09-29T12:38:26 [WARNING] brain: [EMERGENCY] Protocol activated for: Emergency Services (dry_run=False)
+2026-09-29T12:38:26 [WARNING] brain: [EMERGENCY] Protocol activated for: Emergency Services (dry_run=False)
+2026-09-29T12:38:26 [ERROR] brain: Ollama error: 'dict' object has no attribute 'message'
+2026-09-29T12:38:26 [ERROR] brain: Ollama error: 'dict' object has no attribute 'message'
+2026-09-29T12:38:26 [WARNING] brain: Ollama timed out after 0.1s
+2026-09-29T12:38:26 [WARNING] brain: Ollama timed out after 0.1s
+2026-09-29T12:38:26 [ERROR] brain: Ollama error: Ollama not running
+2026-09-29T12:38:26 [ERROR] brain: Ollama error: Ollama not running
+2026-09-29T12:38:26 [WARNING] eyes: Sending FALL ALERT to Brain for: Owner
+2026-09-29T12:38:26 [ERROR] brain: Ollama error: Ollama not running
+2026-09-29T12:38:26 [ERROR] brain: Ollama error: Ollama not running
+2026-09-29T12:39:40 [INFO] eyes: Loading YOLOv8-Pose model from C:\Users\micky\.gemini\antigravity\scratch\pi_ambient_ai\yolov8n-pose.pt
+2026-09-29T12:39:40 [INFO] eyes: Initialising webcam...
+2026-09-29T12:39:40 [INFO] eyes: Loading LBPH face model from C:\Users\micky\.gemini\antigravity\scratch\pi_ambient_ai\owner_face_model.yml
+2026-09-29T12:39:40 [WARNING] eyes: Could not load face model (OpenCV(5.0.0) D:\a\opencv-python\opencv-python\opencv_contrib\modules\face\src\facerec.cpp:61: error: (-2:Unspecified error) File can't be opened for reading! in function 'cv::face::FaceRecognizer::read'
+). Run enroll_owner.py first.
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:39:40 [WARNING] brain: [ALERT] Fall event received for: Owner
+2026-09-29T12:39:40 [WARNING] brain: [ALERT] Fall event received for: Owner
+2026-09-29T12:39:40 [INFO] brain: [EVENT] Unknown type=alien_invasion (ignored)
+2026-09-29T12:39:40 [INFO] brain: [EVENT] Unknown type=alien_invasion (ignored)
+2026-09-29T12:39:40 [INFO] brain: [EVENT] Unknown type= (ignored)
+2026-09-29T12:39:40 [INFO] brain: [EVENT] Unknown type= (ignored)
+2026-09-29T12:39:40 [WARNING] brain: [ALERT] Fall event received for: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+2026-09-29T12:39:40 [WARNING] brain: [ALERT] Fall event received for: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+2026-09-29T12:39:40 [INFO] brain: [CONFIG] Gesture config updated: {'left_arm_up': 'Toggle Light'}
+2026-09-29T12:39:40 [INFO] brain: [CONFIG] Gesture config updated: {'left_arm_up': 'Toggle Light'}
+2026-09-29T12:39:40 [INFO] brain: [CONFIG] Gesture config updated: {}
+2026-09-29T12:39:40 [INFO] brain: [CONFIG] Gesture config updated: {}
+2026-09-29T12:39:40 [INFO] brain: [CONFIG] Gesture config updated: {}
+2026-09-29T12:39:40 [INFO] brain: [CONFIG] Gesture config updated: {}
+2026-09-29T12:39:40 [INFO] brain: [GESTURE] left_arm_up → Toggle Mic
+2026-09-29T12:39:40 [INFO] brain: [GESTURE] left_arm_up → Toggle Mic
+2026-09-29T12:39:40 [INFO] brain: [GESTURE] right_arm_up → Toggle Light
+2026-09-29T12:39:40 [INFO] brain: [GESTURE] right_arm_up → Toggle Light
+2026-09-29T12:39:40 [INFO] brain: [GESTURE] both_arms_up → Toggle Fan
+2026-09-29T12:39:40 [INFO] brain: [GESTURE] both_arms_up → Toggle Fan
+2026-09-29T12:39:40 [INFO] brain: [GESTURE] moonwalk → None
+2026-09-29T12:39:40 [INFO] brain: [GESTURE] moonwalk → None
+2026-09-29T12:39:40 [WARNING] brain: [EMERGENCY] Protocol activated for: TestContact (dry_run=True)
+2026-09-29T12:39:40 [WARNING] brain: [EMERGENCY] Protocol activated for: TestContact (dry_run=True)
+2026-09-29T12:39:40 [WARNING] brain: [EMERGENCY] Protocol activated for: Family (dry_run=False)
+2026-09-29T12:39:40 [WARNING] brain: [EMERGENCY] Protocol activated for: Family (dry_run=False)
+2026-09-29T12:39:40 [WARNING] brain: [EMERGENCY] Protocol activated for: Emergency Services (dry_run=False)
+2026-09-29T12:39:40 [WARNING] brain: [EMERGENCY] Protocol activated for: Emergency Services (dry_run=False)
+2026-09-29T12:39:40 [ERROR] brain: Ollama error: 'dict' object has no attribute 'message'
+2026-09-29T12:39:40 [ERROR] brain: Ollama error: 'dict' object has no attribute 'message'
+2026-09-29T12:39:40 [WARNING] brain: Ollama timed out after 0.1s
+2026-09-29T12:39:40 [WARNING] brain: Ollama timed out after 0.1s
+2026-09-29T12:39:40 [ERROR] brain: Ollama error: Ollama not running
+2026-09-29T12:39:40 [ERROR] brain: Ollama error: Ollama not running
+2026-09-29T12:39:40 [WARNING] eyes: Sending FALL ALERT to Brain for: Owner
+2026-09-29T12:39:41 [ERROR] brain: Ollama error: Ollama not running
+2026-09-29T12:39:41 [ERROR] brain: Ollama error: Ollama not running
+2026-09-29T12:39:41 [INFO] eyes: Dashboard frame path: C:\Users\micky\AppData\Local\Temp\pytest-of-micky\pytest-1\test_atomic_save_no_partial_fi0\test_frame.jpg
+2026-09-29T12:40:29 [INFO] eyes: Loading YOLOv8-Pose model from C:\Users\micky\.gemini\antigravity\scratch\pi_ambient_ai\yolov8n-pose.pt
+2026-09-29T12:40:29 [INFO] eyes: Initialising webcam...
+2026-09-29T12:40:29 [INFO] eyes: Loading LBPH face model from C:\Users\micky\.gemini\antigravity\scratch\pi_ambient_ai\owner_face_model.yml
+2026-09-29T12:40:29 [WARNING] eyes: Could not load face model (OpenCV(5.0.0) D:\a\opencv-python\opencv-python\opencv_contrib\modules\face\src\facerec.cpp:61: error: (-2:Unspecified error) File can't be opened for reading! in function 'cv::face::FaceRecognizer::read'
+). Run enroll_owner.py first.
+2026-09-29T12:40:29 [ERROR] brain: Ollama error: 'dict' object has no attribute 'message'
+2026-09-29T12:41:39 [INFO] eyes: Loading YOLOv8-Pose model from C:\Users\micky\.gemini\antigravity\scratch\pi_ambient_ai\yolov8n-pose.pt
+2026-09-29T12:41:39 [INFO] eyes: Initialising webcam...
+2026-09-29T12:41:39 [INFO] eyes: Loading LBPH face model from C:\Users\micky\.gemini\antigravity\scratch\pi_ambient_ai\owner_face_model.yml
+2026-09-29T12:41:39 [WARNING] eyes: Could not load face model (OpenCV(5.0.0) D:\a\opencv-python\opencv-python\opencv_contrib\modules\face\src\facerec.cpp:61: error: (-2:Unspecified error) File can't be opened for reading! in function 'cv::face::FaceRecognizer::read'
+). Run enroll_owner.py first.
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:39 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:40 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:41:40 [INFO] brain: [EVENT] Unknown type=alien_invasion (ignored)
+2026-09-29T12:41:40 [INFO] brain: [EVENT] Unknown type=alien_invasion (ignored)
+2026-09-29T12:41:40 [INFO] brain: [EVENT] Unknown type= (ignored)
+2026-09-29T12:41:40 [INFO] brain: [EVENT] Unknown type= (ignored)
+2026-09-29T12:41:40 [WARNING] brain: [ALERT] Fall event received for: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+2026-09-29T12:41:40 [WARNING] brain: [ALERT] Fall event received for: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+2026-09-29T12:41:40 [INFO] brain: [CONFIG] Gesture config updated: {'left_arm_up': 'Toggle Light'}
+2026-09-29T12:41:40 [INFO] brain: [CONFIG] Gesture config updated: {'left_arm_up': 'Toggle Light'}
+2026-09-29T12:41:40 [INFO] brain: [CONFIG] Gesture config updated: {}
+2026-09-29T12:41:40 [INFO] brain: [CONFIG] Gesture config updated: {}
+2026-09-29T12:41:40 [INFO] brain: [CONFIG] Gesture config updated: {}
+2026-09-29T12:41:40 [INFO] brain: [CONFIG] Gesture config updated: {}
+2026-09-29T12:41:40 [INFO] brain: [GESTURE] left_arm_up → Toggle Mic
+2026-09-29T12:41:40 [INFO] brain: [GESTURE] left_arm_up → Toggle Mic
+2026-09-29T12:41:40 [INFO] brain: [GESTURE] right_arm_up → Toggle Light
+2026-09-29T12:41:40 [INFO] brain: [GESTURE] right_arm_up → Toggle Light
+2026-09-29T12:41:40 [INFO] brain: [GESTURE] both_arms_up → Toggle Fan
+2026-09-29T12:41:40 [INFO] brain: [GESTURE] both_arms_up → Toggle Fan
+2026-09-29T12:41:40 [INFO] brain: [GESTURE] moonwalk → None
+2026-09-29T12:41:40 [INFO] brain: [GESTURE] moonwalk → None
+2026-09-29T12:41:40 [WARNING] brain: [EMERGENCY] Protocol activated for: TestContact (dry_run=True)
+2026-09-29T12:41:40 [WARNING] brain: [EMERGENCY] Protocol activated for: TestContact (dry_run=True)
+2026-09-29T12:41:40 [WARNING] brain: [EMERGENCY] Protocol activated for: Family (dry_run=False)
+2026-09-29T12:41:40 [WARNING] brain: [EMERGENCY] Protocol activated for: Family (dry_run=False)
+2026-09-29T12:41:40 [WARNING] brain: [EMERGENCY] Protocol activated for: Emergency Services (dry_run=False)
+2026-09-29T12:41:40 [WARNING] brain: [EMERGENCY] Protocol activated for: Emergency Services (dry_run=False)
+2026-09-29T12:41:40 [WARNING] brain: Ollama timed out after 0.1s
+2026-09-29T12:41:40 [WARNING] brain: Ollama timed out after 0.1s
+2026-09-29T12:41:40 [ERROR] brain: Ollama error: Ollama not running
+2026-09-29T12:41:40 [ERROR] brain: Ollama error: Ollama not running
+2026-09-29T12:41:40 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 1 failed: Brain not up yet
+2026-09-29T12:41:40 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 2 failed: Brain not up yet
+2026-09-29T12:41:40 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 1 failed: Brain dead
+2026-09-29T12:41:40 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 2 failed: Brain dead
+2026-09-29T12:41:40 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 3 failed: Brain dead
+2026-09-29T12:41:40 [ERROR] eyes: POST http://127.0.0.1:5000/event failed after 3 attempts.
+2026-09-29T12:41:40 [WARNING] eyes: Sending FALL ALERT to Brain for: Owner
+2026-09-29T12:41:40 [ERROR] brain: Ollama error: Ollama not running
+2026-09-29T12:41:40 [ERROR] brain: Ollama error: Ollama not running
+2026-09-29T12:41:40 [INFO] eyes: Dashboard frame path: C:\Users\micky\AppData\Local\Temp\pytest-of-micky\pytest-2\test_atomic_save_no_partial_fi0\test_frame.jpg
+2026-09-29T12:41:49 [WARNING] brain: [ALERT] Fall event received for: Owner
+2026-09-29T12:41:49 [WARNING] brain: [ALERT] Fall event received for: Owner
+2026-09-29T12:42:06 [WARNING] brain: [ALERT] Fall event received for: Owner
+2026-09-29T12:42:06 [WARNING] brain: [ALERT] Fall event received for: Owner
+2026-09-29T12:42:36 [INFO] eyes: Loading YOLOv8-Pose model from C:\Users\micky\.gemini\antigravity\scratch\pi_ambient_ai\yolov8n-pose.pt
+2026-09-29T12:42:36 [INFO] eyes: Initialising webcam...
+2026-09-29T12:42:36 [INFO] eyes: Loading LBPH face model from C:\Users\micky\.gemini\antigravity\scratch\pi_ambient_ai\owner_face_model.yml
+2026-09-29T12:42:36 [WARNING] eyes: Could not load face model (OpenCV(5.0.0) D:\a\opencv-python\opencv-python\opencv_contrib\modules\face\src\facerec.cpp:61: error: (-2:Unspecified error) File can't be opened for reading! in function 'cv::face::FaceRecognizer::read'
+). Run enroll_owner.py first.
+2026-09-29T12:42:36 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:42:36 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:42:36 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:42:36 [INFO] brain: [PRIVACY] Microphone MUTED via API
+2026-09-29T12:42:36 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:42:36 [INFO] brain: [PRIVACY] Microphone UNMUTED via API
+2026-09-29T12:42:36 [WARNING] brain: [ALERT] Fall event received for: Owner
+2026-09-29T12:42:36 [WARNING] brain: [ALERT] Fall event received for: Owner
+2026-09-29T12:42:36 [INFO] brain: [EVENT] Unknown type=alien_invasion (ignored)
+2026-09-29T12:42:36 [INFO] brain: [EVENT] Unknown type=alien_invasion (ignored)
+2026-09-29T12:42:36 [INFO] brain: [EVENT] Unknown type= (ignored)
+2026-09-29T12:42:36 [INFO] brain: [EVENT] Unknown type= (ignored)
+2026-09-29T12:42:36 [WARNING] brain: [ALERT] Fall event received for: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+2026-09-29T12:42:36 [WARNING] brain: [ALERT] Fall event received for: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+2026-09-29T12:42:36 [INFO] brain: [CONFIG] Gesture config updated: {'left_arm_up': 'Toggle Light'}
+2026-09-29T12:42:36 [INFO] brain: [CONFIG] Gesture config updated: {'left_arm_up': 'Toggle Light'}
+2026-09-29T12:42:36 [INFO] brain: [CONFIG] Gesture config updated: {}
+2026-09-29T12:42:36 [INFO] brain: [CONFIG] Gesture config updated: {}
+2026-09-29T12:42:36 [INFO] brain: [CONFIG] Gesture config updated: {}
+2026-09-29T12:42:36 [INFO] brain: [CONFIG] Gesture config updated: {}
+2026-09-29T12:42:36 [INFO] brain: [GESTURE] left_arm_up → Toggle Mic
+2026-09-29T12:42:36 [INFO] brain: [GESTURE] left_arm_up → Toggle Mic
+2026-09-29T12:42:36 [INFO] brain: [GESTURE] right_arm_up → Toggle Light
+2026-09-29T12:42:36 [INFO] brain: [GESTURE] right_arm_up → Toggle Light
+2026-09-29T12:42:36 [INFO] brain: [GESTURE] both_arms_up → Toggle Fan
+2026-09-29T12:42:36 [INFO] brain: [GESTURE] both_arms_up → Toggle Fan
+2026-09-29T12:42:36 [INFO] brain: [GESTURE] moonwalk → None
+2026-09-29T12:42:36 [INFO] brain: [GESTURE] moonwalk → None
+2026-09-29T12:42:36 [WARNING] brain: [EMERGENCY] Protocol activated for: TestContact (dry_run=True)
+2026-09-29T12:42:36 [WARNING] brain: [EMERGENCY] Protocol activated for: TestContact (dry_run=True)
+2026-09-29T12:42:36 [WARNING] brain: [EMERGENCY] Protocol activated for: Family (dry_run=False)
+2026-09-29T12:42:36 [WARNING] brain: [EMERGENCY] Protocol activated for: Family (dry_run=False)
+2026-09-29T12:42:36 [WARNING] brain: [EMERGENCY] Protocol activated for: Emergency Services (dry_run=False)
+2026-09-29T12:42:36 [WARNING] brain: [EMERGENCY] Protocol activated for: Emergency Services (dry_run=False)
+2026-09-29T12:42:36 [WARNING] brain: Ollama timed out after 0.1s
+2026-09-29T12:42:36 [WARNING] brain: Ollama timed out after 0.1s
+2026-09-29T12:42:36 [ERROR] brain: Ollama error: Ollama not running
+2026-09-29T12:42:36 [ERROR] brain: Ollama error: Ollama not running
+2026-09-29T12:42:36 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 1 failed: Brain not up yet
+2026-09-29T12:42:36 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 2 failed: Brain not up yet
+2026-09-29T12:42:36 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 1 failed: Brain dead
+2026-09-29T12:42:36 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 2 failed: Brain dead
+2026-09-29T12:42:36 [WARNING] eyes: POST http://127.0.0.1:5000/event attempt 3 failed: Brain dead
+2026-09-29T12:42:37 [ERROR] eyes: POST http://127.0.0.1:5000/event failed after 3 attempts.
+2026-09-29T12:42:37 [WARNING] eyes: Sending FALL ALERT to Brain for: Owner
+2026-09-29T12:42:37 [ERROR] brain: Ollama error: Ollama not running
+2026-09-29T12:42:37 [ERROR] brain: Ollama error: Ollama not running
+2026-09-29T12:42:37 [INFO] eyes: Dashboard frame path: C:\Users\micky\AppData\Local\Temp\pytest-of-micky\pytest-3\test_atomic_save_no_partial_fi0\test_frame.jpg

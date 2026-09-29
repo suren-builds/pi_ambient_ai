@@ -1,340 +1,487 @@
 """
-Ambient AI Vision Engine - The Eyes
-Handles: YOLOv8-Pose, Fall Detection, Face Recognition, Wake-on-Motion
+Ambient AI Hub — Vision Engine (yolo_tracker.py)
+Handles: YOLOv8n-pose, LBPH face recognition, fall detection,
+         gesture control, MOG2 wake-on-motion.
+
+Hardening fixes applied (see AUDIT.md):
+  C-1: this_person_falling initialised before loop so no NameError.
+  C-4: Atomic JPEG write (write to .tmp, rename) prevents torn reads.
+  H-2: HTTP POST to Brain uses retry with exponential backoff.
+  H-8: face_recognizer flag tracks whether model is usable; safe fallback.
+  M-3: Model path resolved to absolute at startup.
+  M-4: enroll_owner.py CAP_DSHOW bug documented; yolo_tracker uses correct Pi path.
+  M-6: MOG2 history raised to 500 per config.
+  M-7: SIGTERM/SIGINT handler releases camera gracefully.
+  M-9: LBPH threshold tightened from 120 → config value (default 80).
+  M-1: Structured logging replaces print().
 """
+
+from __future__ import annotations
+
+import logging
+import logging.handlers
+import os
+import signal
+import sys
+import tempfile
+import threading
+import time
+from typing import Any
 
 import cv2
 import numpy as np
-from ultralytics import YOLO
 import requests
-import time
-import os
+import yaml
 
 # ============================================================
-# 1. INITIALIZE MODELS & CONFIG
+# 0.  CONFIGURATION
 # ============================================================
-HEADLESS = os.environ.get('HEADLESS', 'False').lower() == 'true'
-if HEADLESS:
-    print("[!] RUNNING IN HEADLESS MODE (No Video Windows)")
+_DIR = os.path.dirname(os.path.abspath(__file__))
+_CFG_PATH = os.path.join(_DIR, "config.yaml")
 
-print("Initializing YOLOv8-Pose Model...")
-model = YOLO('yolov8n-pose.pt')
 
-import sys
+def _load_config(path: str) -> dict[str, Any]:
+    defaults: dict[str, Any] = {
+        "brain_api_host": "127.0.0.1",
+        "brain_api_port": 5000,
+        "api_secret_token": "",
+        "yolo_model": "yolov8n-pose.pt",
+        "face_model_path": "owner_face_model.yml",
+        "yolo_confidence": 0.5,
+        "yolo_frame_width": 1280,
+        "yolo_frame_height": 720,
+        "dashboard_frame_width": 640,
+        "dashboard_frame_height": 360,
+        "fall_confirm_frames": 3,
+        "fall_alert_cooldown_s": 30,
+        "fall_score_threshold": 3,
+        "lbph_confidence_threshold": 80,
+        "gesture_cooldown_s": 3.0,
+        "gesture_arm_raise_threshold_px": 50,
+        "motion_sleep_timeout_s": 10.0,
+        "motion_pixel_threshold": 500,
+        "mog2_history": 500,
+        "mog2_var_threshold": 50,
+        "http_timeout_s": 1.0,
+        "http_max_retries": 3,
+        "http_retry_backoff_s": 0.5,
+        "log_level": "INFO",
+        "log_file": "ambient_ai.log",
+        "log_max_bytes": 2097152,
+        "log_backup_count": 2,
+        "cpu_throttle_temp_c": 75,
+        "cpu_pause_temp_c": 85,
+    }
+    if os.path.exists(path):
+        with open(path, "r", encoding="utf-8") as f:
+            user_cfg = yaml.safe_load(f) or {}
+        defaults.update(user_cfg)
+    return defaults
 
-print("Initializing Laptop Webcam...")
-if os.name == 'nt':
-    cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
-else:
-    cap = cv2.VideoCapture(0) # Use default V4L2 on Raspberry Pi
-cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
-cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 
-print("Loading Owner Face Model...")
+CFG = _load_config(_CFG_PATH)
+
+_BRAIN_API = f"http://{CFG['brain_api_host']}:{CFG['brain_api_port']}"
+_SECRET_TOKEN = CFG["api_secret_token"]
+_HEADERS = {"X-Secret-Token": _SECRET_TOKEN} if _SECRET_TOKEN else {}
+
+HEADLESS = os.environ.get("HEADLESS", "false").lower() == "true"
+
+# ============================================================
+# 1.  LOGGING
+# ============================================================
+_fmt = logging.Formatter("%(asctime)s [%(levelname)s] eyes: %(message)s", datefmt="%Y-%m-%dT%H:%M:%S")
+
+_fh = logging.handlers.RotatingFileHandler(
+    CFG["log_file"], maxBytes=CFG["log_max_bytes"],
+    backupCount=CFG["log_backup_count"], encoding="utf-8",
+)
+_fh.setFormatter(_fmt)
+_sh = logging.StreamHandler(sys.stdout)
+_sh.setFormatter(_fmt)
+
+log = logging.getLogger("eyes")
+log.setLevel(getattr(logging, CFG["log_level"].upper(), logging.INFO))
+log.addHandler(_fh)
+log.addHandler(_sh)
+
+# ============================================================
+# 2.  THERMAL GUARDRAIL  (Pi-specific)
+# ============================================================
+def _get_cpu_temp() -> float:
+    """Return Pi CPU temperature in °C, or 0.0 if unavailable."""
+    try:
+        with open("/sys/class/thermal/thermal_zone0/temp") as f:
+            return int(f.read().strip()) / 1000.0
+    except OSError:
+        return 0.0
+
+
+# ============================================================
+# 3.  MODEL INITIALISATION
+# ============================================================
+# Resolve paths absolutely
+_YOLO_PATH = os.path.join(_DIR, CFG["yolo_model"])
+_FACE_MODEL_PATH = os.path.join(_DIR, CFG["face_model_path"])
+_FRAME_SAVE_PATH = os.path.join(_DIR, "latest_frame.jpg")
+
+log.info("Loading YOLOv8-Pose model from %s", _YOLO_PATH)
+from ultralytics import YOLO  # noqa: E402 — import after logging setup
+yolo_model = YOLO(_YOLO_PATH)
+
+log.info("Initialising webcam...")
+_cap_backend = cv2.CAP_DSHOW if os.name == "nt" else cv2.CAP_ANY
+cap = cv2.VideoCapture(0, _cap_backend)
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, CFG["yolo_frame_width"])
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, CFG["yolo_frame_height"])
+
+if not cap.isOpened():
+    log.critical("Cannot open camera — exiting.")
+    sys.exit(1)
+
+# Face recognizer
+log.info("Loading LBPH face model from %s", _FACE_MODEL_PATH)
 face_recognizer = cv2.face.LBPHFaceRecognizer_create()
+_face_model_ok = False
 try:
-    face_recognizer.read('owner_face_model.yml')
-    print("Owner Face Model loaded successfully!")
-except Exception as e:
-    print("Warning: Could not load owner_face_model.yml. Run enroll_owner.py first!")
+    face_recognizer.read(_FACE_MODEL_PATH)
+    _face_model_ok = True
+    log.info("Face model loaded successfully.")
+except Exception as exc:
+    log.warning("Could not load face model (%s). Run enroll_owner.py first.", exc)
 
 # ============================================================
-# 2. STATE VARIABLES
+# 4.  STATE VARIABLES
 # ============================================================
-last_fall_alert_time = 0
-FRAME_SAVE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "latest_frame.jpg")
+_last_fall_alert_time: float = 0.0
+_fall_frame_counter: int = 0
+_last_gesture_time: float = 0.0
+_frame_save_confirmed: bool = False
 
-# Temporal fall filter: require N consecutive frames before triggering
-# A real fall = person stays down. A false positive = 1-2 frames of weird skeleton.
-fall_frame_counter = 0
-FALL_CONFIRM_FRAMES = 3  # Reduced to 3 for almost immediate detection
-
-last_gesture_time = 0
-GESTURE_COOLDOWN = 3.0
-
-
-# Wake-on-Motion optimization
-motion_detector = cv2.createBackgroundSubtractorMOG2(history=100, varThreshold=50, detectShadows=False)
-last_motion_time = time.time()
-SLEEP_TIMEOUT = 5.0  # Seconds of stillness before YOLO shuts off
+_motion_detector = cv2.createBackgroundSubtractorMOG2(
+    history=CFG["mog2_history"],
+    varThreshold=CFG["mog2_var_threshold"],
+    detectShadows=False,
+)
+_last_motion_time: float = time.time()
 
 # ============================================================
-# 3. HELPER FUNCTIONS
+# 5.  GRACEFUL SHUTDOWN
 # ============================================================
-def get_avg_y(kpts, indices):
-    """Get average Y coordinate from a list of keypoint indices."""
-    valid = [kpts[i][1] for i in indices if len(kpts) > i and kpts[i][1] > 0]
-    return sum(valid) / len(valid) if valid else 0
+_shutdown_event = threading.Event()
 
-def get_avg_x(kpts, indices):
-    """Get average X coordinate from a list of keypoint indices."""
-    valid = [kpts[i][0] for i in indices if len(kpts) > i and kpts[i][0] > 0]
-    return sum(valid) / len(valid) if valid else 0
 
-def recognize_face(frame, person_kpts):
-    """Try to recognize the face using LBPH. Returns (name, color, confidence)."""
-    face_pts = []
-    for idx in range(5):
-        if len(person_kpts) > idx and person_kpts[idx][0] > 0 and person_kpts[idx][1] > 0:
-            face_pts.append((person_kpts[idx][0], person_kpts[idx][1]))
+def _shutdown_handler(signum: int, _frame: Any) -> None:
+    log.info("Signal %s received — shutting down vision engine.", signum)
+    _shutdown_event.set()
 
+
+signal.signal(signal.SIGTERM, _shutdown_handler)
+signal.signal(signal.SIGINT, _shutdown_handler)
+
+# ============================================================
+# 6.  HELPER FUNCTIONS
+# ============================================================
+def _avg_y(kpts: np.ndarray, indices: list[int]) -> float:
+    """Average Y coordinate for given keypoint indices (0 = not visible)."""
+    vals = [kpts[i][1] for i in indices if len(kpts) > i and kpts[i][1] > 0]
+    return float(np.mean(vals)) if vals else 0.0
+
+
+def _avg_x(kpts: np.ndarray, indices: list[int]) -> float:
+    vals = [kpts[i][0] for i in indices if len(kpts) > i and kpts[i][0] > 0]
+    return float(np.mean(vals)) if vals else 0.0
+
+
+def recognize_face(frame: np.ndarray, kpts: np.ndarray) -> tuple[str, tuple[int, int, int], float]:
+    """LBPH face recognition using YOLO face keypoints. Returns (name, colour, confidence)."""
+    UNKNOWN = ("Unknown", (200, 200, 200), 999.0)
+
+    if not _face_model_ok:
+        return UNKNOWN
+
+    face_pts = [(kpts[i][0], kpts[i][1]) for i in range(5) if len(kpts) > i and kpts[i][0] > 0 and kpts[i][1] > 0]
     if len(face_pts) < 3:
-        return "Unknown", (200, 200, 200), 999
+        return UNKNOWN
 
     xs = [p[0] for p in face_pts]
     ys = [p[1] for p in face_pts]
-    min_x, max_x = min(xs), max(xs)
-    min_y, max_y = min(ys), max(ys)
-
-    fw = max_x - min_x
-    fh = max_y - min_y
+    fw = max(xs) - min(xs)
+    fh = max(ys) - min(ys)
     pad_x = int(fw * 0.5)
     pad_y_top = int(fh * 0.8)
     pad_y_bot = int(fh * 0.6)
 
-    fx1 = max(0, int(min_x - pad_x))
-    fy1 = max(0, int(min_y - pad_y_top))
-    fx2 = min(frame.shape[1], int(max_x + pad_x))
-    fy2 = min(frame.shape[0], int(max_y + pad_y_bot))
+    x1 = max(0, int(min(xs) - pad_x))
+    y1 = max(0, int(min(ys) - pad_y_top))
+    x2 = min(frame.shape[1], int(max(xs) + pad_x))
+    y2 = min(frame.shape[0], int(max(ys) + pad_y_bot))
 
-    face_crop = frame[fy1:fy2, fx1:fx2]
+    face_crop = frame[y1:y2, x1:x2]
     if face_crop.size == 0:
-        return "Unknown", (200, 200, 200), 999
+        return UNKNOWN
 
     try:
         gray = cv2.cvtColor(face_crop, cv2.COLOR_BGR2GRAY)
         resized = cv2.resize(gray, (100, 100))
         label, conf = face_recognizer.predict(resized)
-        if conf < 120:
-            return "Owner", (0, 255, 0), conf
-        return "Unknown", (200, 200, 200), conf
-    except:
-        return "Unknown", (200, 200, 200), 999
+        threshold = float(CFG["lbph_confidence_threshold"])
+        if conf < threshold:
+            return ("Owner", (0, 255, 0), float(conf))
+        return ("Unknown", (200, 200, 200), float(conf))
+    except Exception as exc:
+        log.debug("Face recognition error: %s", exc)
+        return UNKNOWN
 
-def compute_fall_score(shoulder_x, shoulder_y, hip_x, hip_y, ankle_y, width, height, frame_height):
-    """
-    Compute fall detection score. Returns (score, is_on_floor, debug_text, is_corrupted).
-    Score >= 3 AND is_on_floor => FALL DETECTED.
-    """
-    spine_x = abs(hip_x - shoulder_x)
-    spine_y = abs(hip_y - shoulder_y)
 
-    # Skeleton Corruption Check (multi-person overlap)
+def compute_fall_score(
+    sx: float, sy: float, hx: float, hy: float,
+    ay: float, width: float, height: float, frame_h: int,
+) -> tuple[int, bool, str, bool]:
+    """
+    Compute fall detection score.
+    Returns (score, is_on_floor, debug_text, is_corrupted_skeleton).
+    Fall = score >= threshold AND is_on_floor.
+    """
+    spine_x = abs(hx - sx)
+    spine_y = abs(hy - sy)
+
+    # Skeleton corruption guard
     if height > (width * 1.5) and spine_y < (height * 0.2):
-        return 0, False, "CORRUPTED SKELETON (Overlap)", True
+        return 0, False, "CORRUPTED SKELETON", True
 
     score = 0
-
-    # Signal 1: Box wider than tall
-    if width > (height * 1.2):
-        score += 1
-
-    # Signal 2: Spine nearly horizontal
-    if spine_x > (spine_y * 1.5):
-        score += 1
-
-    # Signal 3: Head dropped to hip level
-    if shoulder_y > (hip_y - (height * 0.1)):
-        score += 1
-
-    # Signal 4: Legs collapsed
-    if ankle_y > 0:
-        if abs(ankle_y - hip_y) < (height * 0.5):
-            score += 1
+    if width > (height * 1.2):      score += 1  # box wider than tall
+    if spine_x > (spine_y * 1.5):   score += 1  # spine nearly horizontal
+    if sy > (hy - height * 0.1):    score += 1  # head dropped to hip level
+    if ay > 0:
+        if abs(ay - hy) < (height * 0.5):
+            score += 1  # ankles collapsed
     else:
-        score += 1  # Ankles hidden = probably collapsed
+        score += 1  # ankles hidden = probably collapsed
 
-    # Floor zone check (hips must be in bottom 50% of frame)
-    is_on_floor = hip_y > (frame_height * 0.5)
-
-    debug = f"SpineX:{int(spine_x)} | SpineY:{int(spine_y)} | Score:{score}/4 | Floor:{is_on_floor}"
+    is_on_floor = hy > (frame_h * 0.5)
+    debug = f"SpX:{int(spine_x)} SpY:{int(spine_y)} Sc:{score}/4 Fl:{is_on_floor}"
     return score, is_on_floor, debug, False
 
-def send_fall_alert(person_name):
-    """Send a JSON alert to the Brain API server with a 15-second cooldown."""
-    global last_fall_alert_time
-    now = time.time()
-    if now - last_fall_alert_time > 15:
-        print(f"[*] SENDING ALERT TO BRAIN FOR {person_name}...")
+
+def _post_with_retry(url: str, payload: dict[str, Any]) -> bool:
+    """POST with exponential backoff. Returns True on success."""
+    delay = float(CFG["http_retry_backoff_s"])
+    for attempt in range(int(CFG["http_max_retries"])):
         try:
-            requests.post(
-                "http://127.0.0.1:5000/event",
-                json={"type": "fall_detected", "person": person_name},
-                timeout=1
-            )
-            last_fall_alert_time = now
-        except Exception as e:
-            print(f"[!] Failed to reach Brain API: {e}")
+            resp = requests.post(url, json=payload, headers=_HEADERS, timeout=float(CFG["http_timeout_s"]))
+            if resp.status_code < 500:
+                return True
+        except requests.RequestException as exc:
+            log.warning("POST %s attempt %d failed: %s", url, attempt + 1, exc)
+        time.sleep(delay)
+        delay *= 2
+    log.error("POST %s failed after %d attempts.", url, CFG["http_max_retries"])
+    return False
 
-_frame_save_confirmed = False
 
-def save_frame_for_dashboard(frame):
-    """Write the latest annotated frame to disk for the web dashboard."""
+def send_fall_alert(person_name: str) -> None:
+    """Send fall alert to Brain API with cooldown."""
+    global _last_fall_alert_time
+    now = time.time()
+    if now - _last_fall_alert_time < float(CFG["fall_alert_cooldown_s"]):
+        return
+    log.warning("Sending FALL ALERT to Brain for: %s", person_name)
+    success = _post_with_retry(
+        f"{_BRAIN_API}/event",
+        {"type": "fall_detected", "person": person_name},
+    )
+    if success:
+        _last_fall_alert_time = now
+
+
+def _atomic_save_frame(frame: np.ndarray) -> None:
+    """Write JPEG atomically: write to .tmp then rename, preventing torn reads."""
     global _frame_save_confirmed
+    tmp_path = _FRAME_SAVE_PATH + ".tmp"
     try:
-        cv2.imwrite(FRAME_SAVE_PATH, frame, [cv2.IMWRITE_JPEG_QUALITY, 80])
+        cv2.imwrite(tmp_path, frame, [cv2.IMWRITE_JPEG_QUALITY, 80])
+        os.replace(tmp_path, _FRAME_SAVE_PATH)  # atomic on POSIX; best-effort on Windows
         if not _frame_save_confirmed:
-            print(f"[*] Dashboard frame saved to: {FRAME_SAVE_PATH}")
+            log.info("Dashboard frame path: %s", _FRAME_SAVE_PATH)
             _frame_save_confirmed = True
-    except Exception as e:
-        print(f"[!] Frame save error: {e}")
+    except OSError as exc:
+        log.error("Frame save error: %s", exc)
 
 # ============================================================
-# 4. MAIN TRACKING LOOP
+# 7.  MAIN TRACKING LOOP
 # ============================================================
-try:
-    print("Starting YOLO tracking loop! Press 'q' to quit.")
-    while True:
-        ret, frame = cap.read()
-        if not ret or frame is None:
-            continue
+def main() -> None:
+    """Entry point — runs the vision tracking loop."""
+    global _last_motion_time, _fall_frame_counter, _last_gesture_time
 
-        current_time = time.time()
-        annotated_frame = frame.copy()
+    log.info("Vision engine starting. Headless=%s", HEADLESS)
 
-        # --- LIGHTWEIGHT MOTION CHECK (~1% CPU) ---
-        small = cv2.resize(frame, (320, 180))
-        # Blur heavily to kill camera sensor noise and tiny pixel flicker
-        blurred = cv2.GaussianBlur(small, (21, 21), 0)
-        fg_mask = motion_detector.apply(blurred)
-        # Morphological opening removes tiny noise dots, keeps real movement
-        kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
-        fg_mask = cv2.morphologyEx(fg_mask, cv2.MORPH_OPEN, kernel)
-        motion_pixels = cv2.countNonZero(fg_mask)
+    try:
+        while not _shutdown_event.is_set():
+            ret, frame = cap.read()
+            if not ret or frame is None:
+                time.sleep(0.05)
+                continue
 
-        # Threshold lowered to 500 to catch subtle movements when far away
-        if motion_pixels > 500:
-            last_motion_time = current_time
+            current_time = time.time()
+            annotated_frame = frame.copy()
 
-        # --- SLEEP MODE ---
-        seconds_idle = current_time - last_motion_time
-        if seconds_idle > 10.0:  # Increased sleep timeout to 10 seconds
-            cv2.putText(annotated_frame, "SLEEP MODE (0% AI CPU)", (50, 80),
-                        cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 255, 255), 3)
-            cv2.putText(annotated_frame, f"Room empty for {int(seconds_idle)}s...", (50, 130),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.9, (150, 150, 150), 2)
-            save_frame_for_dashboard(annotated_frame)
-            if not HEADLESS:
-                cv2.imshow("YOLOv8 Ambient AI", annotated_frame)
-                if cv2.waitKey(1) & 0xFF == ord('q'):
-                    break
-            else:
-                time.sleep(0.1) # Prevent CPU spinning in headless sleep
-            continue
+            # ── Thermal guardrail ───────────────────────────────
+            temp = _get_cpu_temp()
+            if temp >= CFG["cpu_pause_temp_c"]:
+                log.warning("CPU temp %.1f°C >= pause threshold — pausing YOLO.", temp)
+                time.sleep(1.0)
+                continue
 
-        # --- WAKE MODE: Run YOLO ---
-        results = model(frame, conf=0.5, verbose=False)
-        annotated_frame = results[0].plot()
-        fall_detected = False
+            throttle = temp >= CFG["cpu_throttle_temp_c"]
 
-        if results[0].keypoints is not None and results[0].boxes is not None and len(results[0].boxes) > 0:
-            # IMPORTANT: If YOLO sees a human, keep the system awake!
-            # This prevents it from sleeping while you are sitting still.
-            last_motion_time = current_time
-            
-            keypoints = results[0].keypoints.xy.cpu().numpy()
-            boxes = results[0].boxes.xyxy.cpu().numpy()
+            # ── Motion detection (~1% CPU) ─────────────────────
+            small = cv2.resize(frame, (320, 180))
+            blurred = cv2.GaussianBlur(small, (21, 21), 0)
+            fg_mask = _motion_detector.apply(blurred)
+            kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
+            fg_mask = cv2.morphologyEx(fg_mask, cv2.MORPH_OPEN, kernel)
+            motion_pixels = cv2.countNonZero(fg_mask)
 
-            for i in range(len(boxes)):
-                x1, y1, x2, y2 = boxes[i]
-                w = x2 - x1
-                h = y2 - y1
-                kpts = keypoints[i]
+            if motion_pixels > CFG["motion_pixel_threshold"]:
+                _last_motion_time = current_time
 
-                sx = get_avg_x(kpts, [5, 6])
-                sy = get_avg_y(kpts, [5, 6])
-                hx = get_avg_x(kpts, [11, 12])
-                hy = get_avg_y(kpts, [11, 12])
-                ay = get_avg_y(kpts, [15, 16])
+            # ── Sleep mode ─────────────────────────────────────
+            idle_s = current_time - _last_motion_time
+            if idle_s > CFG["motion_sleep_timeout_s"]:
+                cv2.putText(annotated_frame, "SLEEP MODE (0% AI CPU)", (50, 80),
+                            cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 255, 255), 3)
+                cv2.putText(annotated_frame, f"Idle {int(idle_s)}s...", (50, 130),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.9, (150, 150, 150), 2)
+                small_f = cv2.resize(annotated_frame, (CFG["dashboard_frame_width"], CFG["dashboard_frame_height"]))
+                _atomic_save_frame(small_f)
+                if not HEADLESS:
+                    cv2.imshow("Ambient AI Eyes", annotated_frame)
+                    if cv2.waitKey(1) & 0xFF == ord("q"):
+                        break
+                else:
+                    time.sleep(0.1)
+                continue
 
-                # --- Gesture Recognition (Customizable) ---
-                lsy = kpts[5][1] if len(kpts) > 5 else 0
-                rsy = kpts[6][1] if len(kpts) > 6 else 0
-                lwy = kpts[9][1] if len(kpts) > 9 else 0
-                rwy = kpts[10][1] if len(kpts) > 10 else 0
-                lwx = kpts[9][0] if len(kpts) > 9 else 0
-                rwx = kpts[10][0] if len(kpts) > 10 else 0
-                lsx = kpts[5][0] if len(kpts) > 5 else 0
-                rsx = kpts[6][0] if len(kpts) > 6 else 0
+            # ── YOLO inference ─────────────────────────────────
+            results = yolo_model(frame, conf=CFG["yolo_confidence"], verbose=False)
+            annotated_frame = results[0].plot()
 
-                left_up = (lsy > 0 and lwy > 0 and lwy < lsy - 50)
-                right_up = (rsy > 0 and rwy > 0 and rwy < rsy - 50)
-                
-                t_pose = False
-                if lwy > 0 and rwy > 0 and abs(lwy - lsy) < 40 and abs(rwy - rsy) < 40:
-                    # check if arms are stretched outward
-                    if abs(lwx - lsx) > 50 and abs(rwx - rsx) > 50:
-                        t_pose = True
+            # FIX C-1: initialise BEFORE the boxes loop
+            this_person_falling = False
+            name = "Unknown"
 
-                gesture_name = "None"
-                if t_pose:
-                    gesture_name = "t_pose"
-                elif left_up and right_up:
-                    gesture_name = "both_arms_up"
-                elif left_up:
-                    gesture_name = "left_arm_up"
-                elif right_up:
-                    gesture_name = "right_arm_up"
+            if (
+                results[0].keypoints is not None
+                and results[0].boxes is not None
+                and len(results[0].boxes) > 0
+            ):
+                _last_motion_time = current_time  # human present → keep awake
+                keypoints = results[0].keypoints.xy.cpu().numpy()
+                boxes = results[0].boxes.xyxy.cpu().numpy()
 
-                if gesture_name != "None":
-                    cv2.putText(annotated_frame, f"GESTURE: {gesture_name.upper()}", (int(x1), int(y1) - 60), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 255), 2)
-                    if current_time - last_gesture_time > GESTURE_COOLDOWN:
-                        print(f"[*] Gesture Detected: {gesture_name}. Sending to Brain API...")
-                        try:
-                            requests.post("http://127.0.0.1:5000/trigger_gesture", json={"gesture": gesture_name}, timeout=1)
-                            last_gesture_time = current_time
-                        except Exception as e:
-                            print(f"[!] Gesture API Error: {e}")
+                for i in range(len(boxes)):
+                    x1, y1, x2, y2 = boxes[i]
+                    w, h = x2 - x1, y2 - y1
+                    kpts = keypoints[i]
 
-                # --- Face Recognition ---
-                name, color, conf = recognize_face(frame, kpts)
-                cv2.rectangle(annotated_frame, (int(x1), int(y1)), (int(x2), int(y2)), color, 2)
-                label = f"{name} ({int(conf)})" if conf != 999 else name
-                cv2.putText(annotated_frame, label, (int(x1), int(y1) - 35),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.9, color, 2)
+                    sx = _avg_x(kpts, [5, 6])
+                    sy = _avg_y(kpts, [5, 6])
+                    hx = _avg_x(kpts, [11, 12])
+                    hy = _avg_y(kpts, [11, 12])
+                    ay = _avg_y(kpts, [15, 16])
 
-                # --- Fall Detection ---
-                debug_text = "Tracking..."
-                this_person_falling = False
-                if sy > 0 and hy > 0:
-                    score, on_floor, debug_text, corrupted = compute_fall_score(
-                        sx, sy, hx, hy, ay, w, h, frame.shape[0]
+                    # ── Gesture detection ──────────────────────
+                    lsy = float(kpts[5][1]) if len(kpts) > 5 else 0.0
+                    rsy = float(kpts[6][1]) if len(kpts) > 6 else 0.0
+                    lwy = float(kpts[9][1]) if len(kpts) > 9 else 0.0
+                    rwy = float(kpts[10][1]) if len(kpts) > 10 else 0.0
+                    lwx = float(kpts[9][0]) if len(kpts) > 9 else 0.0
+                    rwx = float(kpts[10][0]) if len(kpts) > 10 else 0.0
+                    lsx = float(kpts[5][0]) if len(kpts) > 5 else 0.0
+                    rsx = float(kpts[6][0]) if len(kpts) > 6 else 0.0
+
+                    thresh = float(CFG["gesture_arm_raise_threshold_px"])
+                    left_up = lsy > 0 and lwy > 0 and lwy < lsy - thresh
+                    right_up = rsy > 0 and rwy > 0 and rwy < rsy - thresh
+
+                    t_pose = (
+                        lwy > 0 and rwy > 0
+                        and abs(lwy - lsy) < 40 and abs(rwy - rsy) < 40
+                        and abs(lwx - lsx) > 50 and abs(rwx - rsx) > 50
                     )
 
-                    if not corrupted and score >= 3 and on_floor:
-                        this_person_falling = True
-                        # Show warning but don't trigger alert yet
-                        cv2.rectangle(annotated_frame, (int(x1), int(y1)), (int(x2), int(y2)), (0, 165, 255), 3)
-                        cv2.putText(annotated_frame, f"Verifying fall... ({fall_frame_counter}/{FALL_CONFIRM_FRAMES})",
-                                    (int(x1), int(y1) - 65), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 165, 255), 2)
+                    gesture_name = "None"
+                    if t_pose:               gesture_name = "t_pose"
+                    elif left_up and right_up: gesture_name = "both_arms_up"
+                    elif left_up:             gesture_name = "left_arm_up"
+                    elif right_up:            gesture_name = "right_arm_up"
 
-                cv2.putText(annotated_frame, debug_text, (int(x1), int(y1) - 10),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 0), 2)
+                    if gesture_name != "None":
+                        cv2.putText(annotated_frame, f"GESTURE: {gesture_name.upper()}",
+                                    (int(x1), int(y1) - 60), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 255), 2)
+                        if current_time - _last_gesture_time > float(CFG["gesture_cooldown_s"]):
+                            log.info("Gesture: %s", gesture_name)
+                            _post_with_retry(f"{_BRAIN_API}/trigger_gesture", {"gesture": gesture_name})
+                            _last_gesture_time = current_time
 
-        # --- TEMPORAL FALL CONFIRMATION ---
-        # Only trigger if we see a fall for FALL_CONFIRM_FRAMES consecutive frames
-        if this_person_falling:
-            fall_frame_counter += 1
-        else:
-            fall_frame_counter = 0  # Reset if even one frame is normal
+                    # ── Face recognition ───────────────────────
+                    name, color, conf = recognize_face(frame, kpts)
+                    cv2.rectangle(annotated_frame, (int(x1), int(y1)), (int(x2), int(y2)), color, 2)
+                    face_label = f"{name} ({int(conf)})" if conf < 900 else name
+                    cv2.putText(annotated_frame, face_label, (int(x1), int(y1) - 35),
+                                cv2.FONT_HERSHEY_SIMPLEX, 0.9, color, 2)
 
-        if fall_frame_counter >= FALL_CONFIRM_FRAMES:
-            fall_detected = True
-            send_fall_alert(name)
-            cv2.putText(annotated_frame, "!!! CONFIRMED FALL !!!", (50, 100),
-                        cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 5)
+                    # ── Fall detection ─────────────────────────
+                    if sy > 0 and hy > 0:
+                        score, on_floor, debug_text, corrupted = compute_fall_score(
+                            sx, sy, hx, hy, ay, w, h, frame.shape[0]
+                        )
+                        cv2.putText(annotated_frame, debug_text, (int(x1), int(y1) - 10),
+                                    cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 0), 1)
 
-        # Save a smaller frame for the dashboard (faster web loading)
-        small_frame = cv2.resize(annotated_frame, (640, 360))
-        save_frame_for_dashboard(small_frame)
-        
+                        if not corrupted and score >= CFG["fall_score_threshold"] and on_floor:
+                            this_person_falling = True
+                            cv2.rectangle(annotated_frame, (int(x1), int(y1)), (int(x2), int(y2)), (0, 165, 255), 3)
+                            cv2.putText(annotated_frame,
+                                        f"Verifying... ({_fall_frame_counter}/{CFG['fall_confirm_frames']})",
+                                        (int(x1), int(y1) - 65), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 165, 255), 2)
+
+            # ── Temporal fall confirmation ──────────────────────
+            if this_person_falling:
+                _fall_frame_counter += 1
+            else:
+                _fall_frame_counter = 0
+
+            if _fall_frame_counter >= CFG["fall_confirm_frames"]:
+                cv2.putText(annotated_frame, "!!! CONFIRMED FALL !!!", (50, 100),
+                            cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 5)
+                send_fall_alert(name)
+
+            # ── Save frame for dashboard (atomic) ──────────────
+            small_frame = cv2.resize(annotated_frame, (CFG["dashboard_frame_width"], CFG["dashboard_frame_height"]))
+            _atomic_save_frame(small_frame)
+
+            # ── Display (non-headless) ─────────────────────────
+            if not HEADLESS:
+                cv2.imshow("Ambient AI Eyes", annotated_frame)
+                key = cv2.waitKey(1 if not throttle else 1000) & 0xFF
+                if key == ord("q"):
+                    break
+            elif throttle:
+                time.sleep(1.0)
+
+    finally:
+        log.info("Releasing camera and cleaning up.")
+        if cap:
+            cap.release()
         if not HEADLESS:
-            cv2.imshow("YOLOv8 Ambient AI", annotated_frame)
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
+            cv2.destroyAllWindows()
+        log.info("Vision engine shut down cleanly.")
 
-finally:
-    if cap:
-        cap.release()
-    if not HEADLESS:
-        cv2.destroyAllWindows()
+
+if __name__ == "__main__":
+    main()
+

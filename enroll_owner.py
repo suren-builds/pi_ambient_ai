@@ -1,94 +1,96 @@
+"""
+Ambient AI Hub — Owner Face Enrollment (enroll_owner.py)
+Captures 50 face samples from the webcam and trains an LBPH model.
+
+Fixed: CAP_DSHOW used only on Windows; Linux/Pi uses CAP_ANY.
+"""
+
+from __future__ import annotations
+
+import os
+import sys
+import time
+
 import cv2
 import numpy as np
-import time
 from ultralytics import YOLO
 
-def enroll_owner():
-    print("Loading YOLOv8...")
-    model = YOLO('yolov8n-pose.pt')
-    
-    print("Initializing Webcam...")
-    cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
-    
-    face_crops = []
-    labels = []
-    
-    print("\n" + "="*50)
+
+def enroll_owner(captures_needed: int = 50, model_path: str = "owner_face_model.yml") -> None:
+    """Enroll the owner's face and save the LBPH model to *model_path*."""
+    print("Loading YOLOv8-Pose...")
+    yolo = YOLO("yolov8n-pose.pt")
+
+    print("Initialising webcam...")
+    backend = cv2.CAP_DSHOW if os.name == "nt" else cv2.CAP_ANY
+    cap = cv2.VideoCapture(0, backend)
+    if not cap.isOpened():
+        print("ERROR: Cannot open camera. Check that it is connected and not in use.")
+        sys.exit(1)
+
+    face_crops: list[np.ndarray] = []
+    labels: list[int] = []
+
+    print("\n" + "=" * 50)
     print("OWNER FACE ENROLLMENT")
-    print("="*50)
+    print("=" * 50)
     print("Please look directly at the camera.")
-    print("Move your head slightly (up, down, left, right) to capture different angles.")
+    print("Move your head slightly (up, down, left, right) for varied angles.")
     print("Starting in 3 seconds...\n")
-    
     time.sleep(3)
-    
-    captures_needed = 50
-    
+
     while len(face_crops) < captures_needed:
         ret, frame = cap.read()
-        if not ret: continue
-        
-        # Run YOLO to find the face
-        results = model(frame, conf=0.5, verbose=False)
-        annotated_frame = frame.copy()
-        
-        if results[0].keypoints is not None and results[0].boxes is not None:
+        if not ret or frame is None:
+            continue
+
+        results = yolo(frame, conf=0.5, verbose=False)
+        annotated = frame.copy()
+
+        if results[0].keypoints is not None and results[0].boxes is not None and len(results[0].boxes) > 0:
             keypoints = results[0].keypoints.xy.cpu().numpy()
-            
-            # Assume the closest/largest person is the owner
-            person_kpts = keypoints[0] 
-            
-            # Indices: 0(Nose), 1(L-Eye), 2(R-Eye), 3(L-Ear), 4(R-Ear)
-            face_pts_x = [person_kpts[i][0] for i in range(5) if len(person_kpts) > i and person_kpts[i][0] > 0]
-            face_pts_y = [person_kpts[i][1] for i in range(5) if len(person_kpts) > i and person_kpts[i][1] > 0]
-            
-            if len(face_pts_x) >= 3: # Need at least 3 points to define a face box
-                min_x, max_x = min(face_pts_x), max(face_pts_x)
-                min_y, max_y = min(face_pts_y), max(face_pts_y)
-                
-                # Add padding to capture forehead and chin
-                width = max_x - min_x
-                height = max_y - min_y
-                pad_x = int(width * 0.5)
-                pad_y_top = int(height * 0.8) # Forehead
-                pad_y_bot = int(height * 0.6) # Chin
-                
-                x1 = max(0, int(min_x - pad_x))
-                y1 = max(0, int(min_y - pad_y_top))
-                x2 = min(frame.shape[1], int(max_x + pad_x))
-                y2 = min(frame.shape[0], int(max_y + pad_y_bot))
-                
+            # Use the first (largest) detected person
+            person_kpts = keypoints[0]
+
+            # Keypoint indices: 0=Nose, 1=L-Eye, 2=R-Eye, 3=L-Ear, 4=R-Ear
+            face_xs = [person_kpts[i][0] for i in range(5) if len(person_kpts) > i and person_kpts[i][0] > 0]
+            face_ys = [person_kpts[i][1] for i in range(5) if len(person_kpts) > i and person_kpts[i][1] > 0]
+
+            if len(face_xs) >= 3:
+                fw = max(face_xs) - min(face_xs)
+                fh = max(face_ys) - min(face_ys)
+                pad_x     = int(fw * 0.5)
+                pad_y_top = int(fh * 0.8)
+                pad_y_bot = int(fh * 0.6)
+
+                x1 = max(0, int(min(face_xs) - pad_x))
+                y1 = max(0, int(min(face_ys) - pad_y_top))
+                x2 = min(frame.shape[1], int(max(face_xs) + pad_x))
+                y2 = min(frame.shape[0], int(max(face_ys) + pad_y_bot))
+
                 face_crop = frame[y1:y2, x1:x2]
-                
                 if face_crop.size > 0:
-                    # Draw a green box around the face being captured
-                    cv2.rectangle(annotated_frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
-                    
-                    # Convert to grayscale and resize to standard 100x100 for LBPH
-                    gray_face = cv2.cvtColor(face_crop, cv2.COLOR_BGR2GRAY)
-                    standard_face = cv2.resize(gray_face, (100, 100))
-                    
-                    face_crops.append(standard_face)
-                    labels.append(1) # Label 1 = Owner
-                    
-                    print(f"Captured {len(face_crops)} / {captures_needed}")
-                    
-        
-        cv2.putText(annotated_frame, f"Capturing: {len(face_crops)}/{captures_needed}", (20, 50), 
-                    cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-        cv2.imshow("Owner Enrollment", annotated_frame)
-        cv2.waitKey(100) # Small delay to ensure varied angles
-        
+                    cv2.rectangle(annotated, (x1, y1), (x2, y2), (0, 255, 0), 2)
+                    gray = cv2.cvtColor(face_crop, cv2.COLOR_BGR2GRAY)
+                    standard = cv2.resize(gray, (100, 100))
+                    face_crops.append(standard)
+                    labels.append(1)  # label 1 = Owner
+                    print(f"Captured {len(face_crops)} / {captures_needed}", end="\r")
+
+        cv2.putText(annotated, f"Capturing: {len(face_crops)}/{captures_needed}",
+                    (20, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+        cv2.imshow("Owner Enrollment", annotated)
+        cv2.waitKey(100)  # 10 FPS — ensures varied head angles
+
     cap.release()
     cv2.destroyAllWindows()
-    
-    print("\nTraining local face model...")
-    # LBPH (Local Binary Patterns Histograms) is lightweight and runs perfectly on Raspberry Pi
+
+    print(f"\n\nTraining LBPH face model with {captures_needed} samples...")
     recognizer = cv2.face.LBPHFaceRecognizer_create()
     recognizer.train(face_crops, np.array(labels))
-    
-    recognizer.save('owner_face_model.yml')
-    print("Training complete! Model saved to 'owner_face_model.yml'.")
+    recognizer.save(model_path)
+    print(f"Model saved to '{model_path}'. Enrollment complete!")
+
 
 if __name__ == "__main__":
     enroll_owner()

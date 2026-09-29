@@ -1,0 +1,79 @@
+# ==============================================================
+# Ambient AI Hub — Central Configuration
+# All magic numbers live here. Edit this file; do NOT edit source.
+# ==============================================================
+
+# ── Network ───────────────────────────────────────────────────
+brain_api_host: "127.0.0.1"   # NEVER 0.0.0.0 in production
+brain_api_port: 5000
+dashboard_port: 8501
+
+# Shared secret token for inter-service calls (Eyes → Brain)
+# Change this to a long random string before deploying!
+api_secret_token: "CHANGE_ME_BEFORE_DEPLOY_abc123"
+
+# ── Models ────────────────────────────────────────────────────
+yolo_model: "yolov8n-pose.pt"
+vosk_model: "vosk-model-small-en-us-0.15"
+ollama_model: "llama3.2:1b"
+face_model_path: "owner_face_model.yml"
+
+# ── Ollama ────────────────────────────────────────────────────
+ollama_host: "http://localhost:11434"
+ollama_timeout_s: 15          # seconds before giving up on inference
+
+# ── Fall Detection ────────────────────────────────────────────
+fall_confirm_frames: 3         # consecutive frames before alert fires
+fall_alert_cooldown_s: 30      # seconds between successive alerts
+fall_score_threshold: 3        # score >= this + on_floor → fall
+fall_cancel_countdown_s: 8     # seconds user has to say "I'm okay"
+
+# ── Gesture Recognition ───────────────────────────────────────
+gesture_cooldown_s: 3.0
+gesture_arm_raise_threshold_px: 50  # wrist must be this far above shoulder
+
+# ── Face Recognition ──────────────────────────────────────────
+lbph_confidence_threshold: 80  # lower = stricter. Default was 120 (too loose)
+
+# ── Wake-on-Motion ────────────────────────────────────────────
+motion_sleep_timeout_s: 10.0
+motion_pixel_threshold: 500    # changed pixels before waking YOLO
+mog2_history: 500              # longer history = fewer false wakeups
+mog2_var_threshold: 50
+
+# ── YOLO Inference ────────────────────────────────────────────
+yolo_confidence: 0.5
+yolo_frame_width: 1280
+yolo_frame_height: 720
+dashboard_frame_width: 640     # resize before saving to disk
+dashboard_frame_height: 360
+
+# ── HTTP Timeouts & Retries ───────────────────────────────────
+http_timeout_s: 1.0
+http_max_retries: 3
+http_retry_backoff_s: 0.5      # doubles on each retry
+
+# ── API Payload Limits ────────────────────────────────────────
+max_payload_bytes: 4096
+
+# ── Logging ───────────────────────────────────────────────────
+log_level: "INFO"              # DEBUG | INFO | WARNING | ERROR
+log_file: "ambient_ai.log"  # relative path; on Pi set to /tmp/ambient_ai.log for RAM logging
+log_max_bytes: 2097152         # 2 MB
+log_backup_count: 2
+
+# ── Audio ─────────────────────────────────────────────────────
+audio_samplerate: 16000
+audio_blocksize: 8000
+tts_speech_rate: 175
+mic_audio_queue_timeout_s: 0.5
+
+# ── Chat History ──────────────────────────────────────────────
+max_chat_history: 20
+
+# ── Dashboard ─────────────────────────────────────────────────
+dashboard_refresh_interval_s: 1.5   # seconds between auto-refresh
+
+# ── Thermal Guardrail ────────────────────────────────────────
+cpu_throttle_temp_c: 75        # above this, drop to 1 FPS
+cpu_pause_temp_c: 85           # above this, pause YOLO entirely
