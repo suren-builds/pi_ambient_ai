@@ -351,13 +351,13 @@ def main() -> None:
             # ── Sleep mode ─────────────────────────────────────
             idle_s = current_time - _last_motion_time
             if idle_s > CFG["motion_sleep_timeout_s"]:
-                cv2.putText(annotated_frame, "SLEEP MODE (0% AI CPU)", (50, 80),
-                            cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 255, 255), 3)
-                cv2.putText(annotated_frame, f"Idle {int(idle_s)}s...", (50, 130),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.9, (150, 150, 150), 2)
-                small_f = cv2.resize(annotated_frame, (CFG["dashboard_frame_width"], CFG["dashboard_frame_height"]))
-                _atomic_save_frame(small_f)
                 if not HEADLESS:
+                    cv2.putText(annotated_frame, "SLEEP MODE (0% AI CPU)", (50, 80),
+                                cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 255, 255), 3)
+                    cv2.putText(annotated_frame, f"Idle {int(idle_s)}s...", (50, 130),
+                                cv2.FONT_HERSHEY_SIMPLEX, 0.9, (150, 150, 150), 2)
+                    small_f = cv2.resize(annotated_frame, (CFG["dashboard_frame_width"], CFG["dashboard_frame_height"]))
+                    _atomic_save_frame(small_f)
                     cv2.imshow("Ambient AI Eyes", annotated_frame)
                     if cv2.waitKey(1) & 0xFF == ord("q"):
                         break

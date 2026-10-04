@@ -8,8 +8,8 @@ brain_api_host: "127.0.0.1"   # NEVER 0.0.0.0 in production
 brain_api_port: 5000
 dashboard_port: 8501
 
-# Shared secret token for inter-service calls (Eyes → Brain)
-# Change this to a long random string before deploying!
+# ⚠️  MUST CHANGE before deploying — set a long random string, e.g.:
+#   python3 -c "import secrets; print(secrets.token_hex(32))"
 api_secret_token: "CHANGE_ME_BEFORE_DEPLOY_abc123"
 
 # ── Models ────────────────────────────────────────────────────
@@ -58,7 +58,7 @@ max_payload_bytes: 4096
 
 # ── Logging ───────────────────────────────────────────────────
 log_level: "INFO"              # DEBUG | INFO | WARNING | ERROR
-log_file: "ambient_ai.log"  # relative path; on Pi set to /tmp/ambient_ai.log for RAM logging
+log_file: "/tmp/ambient_ai.log"   # /tmp = RAM disk on Pi — no SD card wear
 log_max_bytes: 2097152         # 2 MB
 log_backup_count: 2
 

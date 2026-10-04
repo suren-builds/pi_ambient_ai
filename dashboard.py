@@ -55,8 +55,7 @@ st.set_page_config(
 # ─── CSS ─────────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-    /* Google Fonts — load with fallback to system fonts */
-    @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;600&display=swap');
+    /* Google Fonts removed for full offline capability */
 
     #MainMenu {visibility: hidden;}
     header {visibility: hidden;}

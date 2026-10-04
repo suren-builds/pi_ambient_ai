@@ -2,7 +2,10 @@
 Ambient AI Hub — Owner Face Enrollment (enroll_owner.py)
 Captures 50 face samples from the webcam and trains an LBPH model.
 
-Fixed: CAP_DSHOW used only on Windows; Linux/Pi uses CAP_ANY.
+Pi-ready fixes:
+  - Absolute paths for model files; no CWD fragility.
+  - cv2.imshow guarded by DISPLAY env check — safe to run headlessly over SSH.
+  - CAP_DSHOW used only on Windows; Linux/Pi uses CAP_ANY.
 """
 
 from __future__ import annotations
@@ -15,11 +18,19 @@ import cv2
 import numpy as np
 from ultralytics import YOLO
 
+# Resolve paths relative to this script regardless of CWD
+_DIR = os.path.dirname(os.path.abspath(__file__))
+_YOLO_PATH = os.path.join(_DIR, "yolov8n-pose.pt")
+_DEFAULT_FACE_MODEL_PATH = os.path.join(_DIR, "owner_face_model.yml")
 
-def enroll_owner(captures_needed: int = 50, model_path: str = "owner_face_model.yml") -> None:
+# Display is available when running locally or via X11 forwarding
+_HAS_DISPLAY = bool(os.environ.get("DISPLAY") or os.name == "nt")
+
+
+def enroll_owner(captures_needed: int = 50, model_path: str = _DEFAULT_FACE_MODEL_PATH) -> None:
     """Enroll the owner's face and save the LBPH model to *model_path*."""
-    print("Loading YOLOv8-Pose...")
-    yolo = YOLO("yolov8n-pose.pt")
+    print(f"Loading YOLOv8-Pose from {_YOLO_PATH}...")
+    yolo = YOLO(_YOLO_PATH)
 
     print("Initialising webcam...")
     backend = cv2.CAP_DSHOW if os.name == "nt" else cv2.CAP_ANY
@@ -36,6 +47,8 @@ def enroll_owner(captures_needed: int = 50, model_path: str = "owner_face_model.
     print("=" * 50)
     print("Please look directly at the camera.")
     print("Move your head slightly (up, down, left, right) for varied angles.")
+    if not _HAS_DISPLAY:
+        print("NOTE: No display detected — running headlessly. Progress will print to terminal.")
     print("Starting in 3 seconds...\n")
     time.sleep(3)
 
@@ -47,7 +60,11 @@ def enroll_owner(captures_needed: int = 50, model_path: str = "owner_face_model.
         results = yolo(frame, conf=0.5, verbose=False)
         annotated = frame.copy()
 
-        if results[0].keypoints is not None and results[0].boxes is not None and len(results[0].boxes) > 0:
+        if (
+            results[0].keypoints is not None
+            and results[0].boxes is not None
+            and len(results[0].boxes) > 0
+        ):
             keypoints = results[0].keypoints.xy.cpu().numpy()
             # Use the first (largest) detected person
             person_kpts = keypoints[0]
@@ -75,15 +92,26 @@ def enroll_owner(captures_needed: int = 50, model_path: str = "owner_face_model.
                     standard = cv2.resize(gray, (100, 100))
                     face_crops.append(standard)
                     labels.append(1)  # label 1 = Owner
-                    print(f"Captured {len(face_crops)} / {captures_needed}", end="\r")
+                    print(f"Captured {len(face_crops)} / {captures_needed}", end="\r", flush=True)
 
-        cv2.putText(annotated, f"Capturing: {len(face_crops)}/{captures_needed}",
-                    (20, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-        cv2.imshow("Owner Enrollment", annotated)
-        cv2.waitKey(100)  # 10 FPS — ensures varied head angles
+        if _HAS_DISPLAY:
+            cv2.putText(
+                annotated,
+                f"Capturing: {len(face_crops)}/{captures_needed}",
+                (20, 50),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                1,
+                (0, 255, 0),
+                2,
+            )
+            cv2.imshow("Owner Enrollment", annotated)
+            cv2.waitKey(100)  # 10 FPS — ensures varied head angles
+        else:
+            time.sleep(0.1)  # headless Pi — throttle capture rate
 
     cap.release()
-    cv2.destroyAllWindows()
+    if _HAS_DISPLAY:
+        cv2.destroyAllWindows()
 
     print(f"\n\nTraining LBPH face model with {captures_needed} samples...")
     recognizer = cv2.face.LBPHFaceRecognizer_create()

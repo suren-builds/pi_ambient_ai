@@ -25,6 +25,7 @@ import logging
 import logging.handlers
 import os
 import queue
+import re
 import signal
 import sys
 import threading
@@ -402,10 +403,12 @@ def extract_city(text: str) -> str:
 def detect_intent(text: str) -> str:
     """Return 'weather', 'emergency', or 'chat'."""
     lower = text.lower()
-    if any(kw in lower for kw in _WEATHER_KEYWORDS):
-        return "weather"
-    if any(kw in lower for kw in _EMERGENCY_KEYWORDS):
-        return "emergency"
+    for kw in _WEATHER_KEYWORDS:
+        if re.search(r'\b' + re.escape(kw) + r'\b', lower):
+            return "weather"
+    for kw in _EMERGENCY_KEYWORDS:
+        if re.search(r'\b' + re.escape(kw) + r'\b', lower):
+            return "emergency"
     return "chat"
 
 
