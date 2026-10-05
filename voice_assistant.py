@@ -216,6 +216,13 @@ system_state: dict[str, Any] = {
         "both_arms_up": "Toggle Fan",
         "t_pose": "None",
     },
+    # Live vision state — updated by yolo_tracker via /vision_status
+    "vision": {
+        "gesture": "None",
+        "fall_confirmed": False,
+        "person_count": 0,
+        "last_seen": "",
+    },
 }
 
 _ALLOWED_GESTURE_KEYS = frozenset(system_state["gesture_config"].keys())
@@ -341,6 +348,33 @@ def api_trigger_gesture() -> Any:
 
     log.info("[GESTURE] %s → %s", gesture, action)
     return jsonify({"status": "success", "action": action, "gesture": gesture})
+
+
+@_app.route("/vision_status", methods=["POST"])
+def api_vision_status() -> Any:
+    """Receive live vision state from yolo_tracker (gesture, fall, person count)."""
+    ok, reason = _check_token()
+    if not ok:
+        return jsonify({"error": reason}), 403
+    if not _check_payload_size():
+        return jsonify({"error": "payload too large"}), 413
+
+    data = flask_request.get_json(silent=True, force=True)
+    if not data or not isinstance(data, dict):
+        return jsonify({"error": "invalid JSON"}), 400
+
+    gesture = str(data.get("gesture", "None"))[:32]
+    fall_confirmed = bool(data.get("fall_confirmed", False))
+    person_count = int(data.get("person_count", 0))
+    ts = datetime.datetime.now().strftime("%H:%M:%S")
+
+    with _state_lock:
+        system_state["vision"]["gesture"] = gesture
+        system_state["vision"]["fall_confirmed"] = fall_confirmed
+        system_state["vision"]["person_count"] = person_count
+        system_state["vision"]["last_seen"] = ts
+
+    return jsonify({"status": "ok"}), 200
 
 
 def _start_api_server() -> None:

@@ -195,10 +195,11 @@ def _avg_x(kpts: np.ndarray, indices: list[int]) -> float:
 
 def recognize_face(frame: np.ndarray, kpts: np.ndarray) -> tuple[str, tuple[int, int, int], float]:
     """LBPH face recognition using YOLO face keypoints. Returns (name, colour, confidence)."""
-    UNKNOWN = ("Unknown", (200, 200, 200), 999.0)
+    # In autonomous mode (no enrollment), label everyone as 'Person' with a neutral colour
+    PERSON = ("Person", (100, 200, 255), 999.0)
 
     if not _face_model_ok:
-        return UNKNOWN
+        return PERSON
 
     face_pts = [(kpts[i][0], kpts[i][1]) for i in range(5) if len(kpts) > i and kpts[i][0] > 0 and kpts[i][1] > 0]
     if len(face_pts) < 3:
@@ -228,10 +229,11 @@ def recognize_face(frame: np.ndarray, kpts: np.ndarray) -> tuple[str, tuple[int,
         threshold = float(CFG["lbph_confidence_threshold"])
         if conf < threshold:
             return ("Owner", (0, 255, 0), float(conf))
-        return ("Unknown", (200, 200, 200), float(conf))
+        # High confidence = dummy model or genuine stranger; show Person not Unknown
+        return ("Person", (100, 200, 255), float(conf))
     except Exception as exc:
         log.debug("Face recognition error: %s", exc)
-        return UNKNOWN
+        return PERSON
 
 
 def compute_fall_score(
@@ -310,7 +312,31 @@ def _atomic_save_frame(frame: np.ndarray) -> None:
         log.error("Frame save error: %s", exc)
 
 # ============================================================
-# 7.  MAIN TRACKING LOOP
+# 7.  VISION STATE BROADCAST (for mobile dashboard)
+# ============================================================
+_last_vision_broadcast: float = 0.0
+_vision_broadcast_interval: float = 0.5  # seconds between state pushes
+
+
+def _broadcast_vision_state(gesture: str, fall_confirmed: bool, person_count: int) -> None:
+    """Push current vision state to Brain /vision_status so dashboard shows live data."""
+    global _last_vision_broadcast
+    now = time.time()
+    if now - _last_vision_broadcast < _vision_broadcast_interval:
+        return
+    _last_vision_broadcast = now
+    _post_with_retry(
+        f"{_BRAIN_API}/vision_status",
+        {
+            "gesture": gesture,
+            "fall_confirmed": fall_confirmed,
+            "person_count": person_count,
+        },
+    )
+
+
+# ============================================================
+# 8.  MAIN TRACKING LOOP
 # ============================================================
 def main() -> None:
     """Entry point — runs the vision tracking loop."""
@@ -455,10 +481,18 @@ def main() -> None:
             else:
                 _fall_frame_counter = 0
 
-            if _fall_frame_counter >= CFG["fall_confirm_frames"]:
+            fall_confirmed_now = _fall_frame_counter >= CFG["fall_confirm_frames"]
+            if fall_confirmed_now:
                 cv2.putText(annotated_frame, "!!! CONFIRMED FALL !!!", (50, 100),
                             cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 5)
                 send_fall_alert(name)
+
+            # ── Broadcast vision state for mobile dashboard ─────
+            _broadcast_vision_state(
+                gesture=gesture_name if 'gesture_name' in dir() else "None",
+                fall_confirmed=fall_confirmed_now,
+                person_count=len(results[0].boxes) if results[0].boxes is not None else 0,
+            )
 
             # ── Save frame for dashboard (atomic) ──────────────
             small_frame = cv2.resize(annotated_frame, (CFG["dashboard_frame_width"], CFG["dashboard_frame_height"]))

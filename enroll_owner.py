@@ -6,29 +6,63 @@ Pi-ready fixes:
   - Absolute paths for model files; no CWD fragility.
   - cv2.imshow guarded by DISPLAY env check — safe to run headlessly over SSH.
   - CAP_DSHOW used only on Windows; Linux/Pi uses CAP_ANY.
+  - --skip flag: writes a dummy placeholder model so yolo_tracker can start
+    without face enrollment (all persons labelled "Person" instead of Owner).
 """
 
 from __future__ import annotations
 
+import argparse
 import os
 import sys
 import time
 
 import cv2
 import numpy as np
-from ultralytics import YOLO
 
 # Resolve paths relative to this script regardless of CWD
 _DIR = os.path.dirname(os.path.abspath(__file__))
-_YOLO_PATH = os.path.join(_DIR, "yolov8n-pose.pt")
 _DEFAULT_FACE_MODEL_PATH = os.path.join(_DIR, "owner_face_model.yml")
 
 # Display is available when running locally or via X11 forwarding
 _HAS_DISPLAY = bool(os.environ.get("DISPLAY") or os.name == "nt")
 
 
+def create_dummy_model(model_path: str) -> None:
+    """
+    Write a minimal LBPH model trained on a single blank image.
+    This allows yolo_tracker.py to load a face_model without crashing,
+    while gracefully falling back to treating everyone as 'Person'.
+    The confidence will always be very high (>> threshold), so nobody
+    will be recognised as Owner — which is fine for autonomous demo mode.
+    """
+    print("=" * 50)
+    print("ENROLLMENT SKIPPED — CREATING PLACEHOLDER MODEL")
+    print("=" * 50)
+    print("The system will run in autonomous 'Person' mode:")
+    print("  • Fall detection     ✅ FULLY ACTIVE")
+    print("  • Arm-raise gestures ✅ FULLY ACTIVE")
+    print("  • Voice assistant    ✅ FULLY ACTIVE")
+    print("  • Face recognition   ⚠️  Bypassed (everyone = Person)")
+    print()
+
+    # Create a tiny synthetic dataset — 5 blank 100x100 grey images
+    dummy_faces = [np.full((100, 100), fill_value=128, dtype=np.uint8) for _ in range(5)]
+    dummy_labels = np.array([1] * 5, dtype=np.int32)
+
+    recognizer = cv2.face.LBPHFaceRecognizer_create()
+    recognizer.train(dummy_faces, dummy_labels)
+    recognizer.save(model_path)
+    print(f"Placeholder model saved to '{model_path}'.")
+    print("Run enroll_owner.py (without --skip) later to enable real face recognition.\n")
+
+
 def enroll_owner(captures_needed: int = 50, model_path: str = _DEFAULT_FACE_MODEL_PATH) -> None:
     """Enroll the owner's face and save the LBPH model to *model_path*."""
+    # Lazy import — avoids loading YOLO/onnxruntime on the --skip path
+    from ultralytics import YOLO  # noqa: PLC0415
+
+    _YOLO_PATH = os.path.join(_DIR, "yolov8n-pose.onnx")
     print(f"Loading YOLOv8-Pose from {_YOLO_PATH}...")
     yolo = YOLO(_YOLO_PATH)
 
@@ -121,4 +155,22 @@ def enroll_owner(captures_needed: int = 50, model_path: str = _DEFAULT_FACE_MODE
 
 
 if __name__ == "__main__":
-    enroll_owner()
+    parser = argparse.ArgumentParser(description="Ambient AI — Owner Face Enrollment")
+    parser.add_argument(
+        "--skip",
+        action="store_true",
+        help=(
+            "Skip webcam enrollment and write a placeholder model instead. "
+            "Fall detection and gesture control remain fully active."
+        ),
+    )
+    parser.add_argument("--captures", type=int, default=50,
+                        help="Number of face captures to collect (default: 50)")
+    parser.add_argument("--model", type=str, default=_DEFAULT_FACE_MODEL_PATH,
+                        help=f"Output path for the LBPH model (default: {_DEFAULT_FACE_MODEL_PATH})")
+    args = parser.parse_args()
+
+    if args.skip:
+        create_dummy_model(args.model)
+    else:
+        enroll_owner(captures_needed=args.captures, model_path=args.model)
