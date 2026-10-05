@@ -139,16 +139,24 @@ if not cap.isOpened():
     log.critical("Cannot open camera — exiting.")
     sys.exit(1)
 
-# Face recognizer
+# Face recognizer — requires opencv-contrib-python-headless
+# If that package is missing, face recognition is silently disabled.
 log.info("Loading LBPH face model from %s", _FACE_MODEL_PATH)
-face_recognizer = cv2.face.LBPHFaceRecognizer_create()
 _face_model_ok = False
 try:
+    face_recognizer = cv2.face.LBPHFaceRecognizer_create()
     face_recognizer.read(_FACE_MODEL_PATH)
     _face_model_ok = True
     log.info("Face model loaded successfully.")
+except AttributeError:
+    log.warning("cv2.face.LBPHFaceRecognizer_create not available — "
+                "install opencv-contrib-python-headless to enable face recognition. "
+                "Fall detection and gestures are unaffected.")
+    face_recognizer = None
 except Exception as exc:
-    log.warning("Could not load face model (%s). Run enroll_owner.py first.", exc)
+    log.warning("Could not load face model (%s). "
+                "Run enroll_owner.py --skip first.", exc)
+    face_recognizer = None
 
 # ============================================================
 # 4.  STATE VARIABLES
@@ -198,7 +206,7 @@ def recognize_face(frame: np.ndarray, kpts: np.ndarray) -> tuple[str, tuple[int,
     # In autonomous mode (no enrollment), label everyone as 'Person' with a neutral colour
     PERSON = ("Person", (100, 200, 255), 999.0)
 
-    if not _face_model_ok:
+    if not _face_model_ok or face_recognizer is None:
         return PERSON
 
     face_pts = [(kpts[i][0], kpts[i][1]) for i in range(5) if len(kpts) > i and kpts[i][0] > 0 and kpts[i][1] > 0]
@@ -225,6 +233,8 @@ def recognize_face(frame: np.ndarray, kpts: np.ndarray) -> tuple[str, tuple[int,
     try:
         gray = cv2.cvtColor(face_crop, cv2.COLOR_BGR2GRAY)
         resized = cv2.resize(gray, (100, 100))
+        if face_recognizer is None:
+            return PERSON
         label, conf = face_recognizer.predict(resized)
         threshold = float(CFG["lbph_confidence_threshold"])
         if conf < threshold:
