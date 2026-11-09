@@ -10,7 +10,7 @@ dashboard_port: 8501
 
 # ⚠️  MUST CHANGE before deploying — set a long random string, e.g.:
 #   python3 -c "import secrets; print(secrets.token_hex(32))"
-api_secret_token: "CHANGE_ME_BEFORE_DEPLOY_abc123"
+api_secret_token: "74bc7320ae1b6c2c0013e2615a17bf2c1ef43e94855a5e69f8153f59fd58c879"
 
 # ── Models ────────────────────────────────────────────────────
 yolo_model: "yolov8n-pose.pt"

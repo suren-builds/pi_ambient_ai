@@ -26,14 +26,16 @@ fi
 # ── [1/5] System packages ───────────────────────────────────────────────────
 echo "[1/5] Installing system dependencies..."
 sudo apt-get update -qq
-sudo apt-get install -y --no-install-recommends \
-    python3-opencv \
-    espeak \
-    portaudio19-dev \
-    libasound2-dev \
-    libatlas-base-dev \
-    git \
+PKGS=(
+    python3-opencv
+    espeak
+    portaudio19-dev
+    libasound2-dev
+    git
     curl
+    dos2unix
+)
+sudo apt-get install -y --no-install-recommends "${PKGS[@]}"
 
 # ── [2/5] Python virtual environment ────────────────────────────────────────
 echo "[2/5] Setting up Python virtual environment..."

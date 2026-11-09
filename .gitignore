@@ -1,0 +1,85 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Pytest cache
+.pytest_cache/
+
+# Runtime logs
+*.log
+ambient_ai.log
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Locally trained face model
+owner_face_model.yml
+
+# Temporary runtime frames
+.latest_frame.jpg.tmp
+*.tmp
+
+# OS generated
+.DS_Store
+Thumbs.db
+
+# ─────────────────────────────────────────────────────────────
+# VIT Review Documents, Dissertation Reports & Generator Tools
+# ─────────────────────────────────────────────────────────────
+FINAL_DISSERTATION*
+*VIT*
+vit_logo*
+figures/
+test_*.docx
+test_*.pdf
+test_*.txt
+steps_dump*.txt
+
+# Dissertation build & verification scripts
+append_*.py
+assemble_dissertation.py
+audit_pages.py
+build_*dissertation*.py
+build_9ch_markdown.py
+check_dollar_lines.py
+check_ready.py
+check_structure.py
+clean_reorganizer.py
+convert_to_pdf.py
+deep_audit.py
+docx_helpers.py
+final_check.py
+final_verify*.py
+find_latex_in_pdf.py
+fix*.py
+gen_fig*.py
+generate_*.py
+head_md.py
+inspect_*.py
+list_headings.py
+list_tests.py
+patch_md.py
+regen_figures.py
+split_and_check.py
+test_all_sections.py
+test_block.py
+test_builder.py
+test_clean_toc.py
+test_create.py
+test_env.ps1
+test_extractor.py
+test_find.py
+test_headers.py
+test_literal.py
+test_path.py
+test_read.py
+test_read_all.py
+test_split.py
+test_starter.py
+test_step.py
+test_word_com.py
+test_write.py
+write_assembler.py

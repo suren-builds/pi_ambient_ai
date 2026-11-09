@@ -62,8 +62,8 @@ cat > /etc/systemd/system/ambient-brain.service <<EOF
 Description=Ambient AI Brain (Voice & API)
 After=network.target sound.target ollama.service
 Requires=ollama.service
-StartLimitIntervalSec=60
-StartLimitBurst=5
+# Disable start limits so it keeps trying indefinitely if USB mic is slow
+StartLimitIntervalSec=0
 
 [Service]
 Type=simple
@@ -88,8 +88,8 @@ cat > /etc/systemd/system/ambient-eyes.service <<EOF
 Description=Ambient AI Eyes (Vision & YOLO)
 After=network.target ambient-brain.service
 Wants=ambient-brain.service
-StartLimitIntervalSec=60
-StartLimitBurst=5
+# Disable start limits so it keeps trying indefinitely if USB camera is slow
+StartLimitIntervalSec=0
 
 [Service]
 Type=simple
@@ -114,8 +114,8 @@ cat > /etc/systemd/system/ambient-dashboard.service <<EOF
 Description=Ambient AI Dashboard (Streamlit)
 After=network.target ambient-brain.service
 Wants=ambient-brain.service
-StartLimitIntervalSec=60
-StartLimitBurst=5
+# Disable start limits so it keeps trying indefinitely
+StartLimitIntervalSec=0
 
 [Service]
 Type=simple
